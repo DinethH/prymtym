@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/bower_components/polymer/polymer-micro.html","a2336e7b5eae7a2a02afdd831f200bd3"],["/bower_components/polymer/polymer-mini.html","bac30e0c47bd92ed7d5d361d437a8f11"],["/bower_components/polymer/polymer.html","f1e7d091cbe69a3c2a8df5f75917b916"],["/bower_components/webcomponentsjs/webcomponents-lite.js","6e4e329460da56397f5602f8b1816694"],["/index.html","cf72cbc4afad2e3957e15a049782888c"],["/src/prymtym-app/prymtym-app.html","d5df354aa31e520783584adeee4f44fa"]];
+var PrecacheConfig = [["/bower_components/polymer/polymer-micro.html","a2336e7b5eae7a2a02afdd831f200bd3"],["/bower_components/polymer/polymer-mini.html","bac30e0c47bd92ed7d5d361d437a8f11"],["/bower_components/polymer/polymer.html","f1e7d091cbe69a3c2a8df5f75917b916"],["/index.html","c9e14a7fbe33fff09f658ca3ffe7dd4f"],["/src/prymtym-app.html","d9de2028a08a824ace3a6e10edfacb12"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 

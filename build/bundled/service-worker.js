@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","d2a0123633e3c8b440fbac983f9dc0ff"]];
+var PrecacheConfig = [["/index.html","c9e14a7fbe33fff09f658ca3ffe7dd4f"],["/src/prymtym-app.html","7fc79b23f15890fffcc49bc9dd573bb6"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
