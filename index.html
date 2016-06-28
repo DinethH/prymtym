@@ -17,15 +17,13 @@
         font-family: 'Roboto', 'Noto', sans-serif;
         font-weight: 400;
         color: #202020;
-      }
-      h1, h2, h3, h3 {
-        margin: 0;
-        padding: 0;
+        min-height: 100vh;
       }
       /* styling for render while resources are loading */
       prymtym-app[unresolved] {
         display: block;
-        min-height: 100vh;
+        height: 64px;
+        background: #BF360C;
       }
     </style>   
     
@@ -47,17 +45,7 @@
           document.body.appendChild(e);
         }
       })();
-      
-      // load pre-caching service worker
-      
-      /*
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js');
-        });
-      }
-      */
-      
+    
     </script>
   </body>
 </html>

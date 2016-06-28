@@ -1,13 +1,158 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/helpers/helpers.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<!-- test -->
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="prymtym-icons.html">
+<!-- test end -->
+
+
+<link rel="import" href="prymtym-overview.html">
 
 <dom-module id="prymtym-app">
   <template>
     <style>
       :host {
         display: block;
+        position: relative;
+        min-height: 100vh;
+        --app-primary-color: #202020;
+        --app-secondary-color: #333;
+        --app-accent-color: #BF360C;
+        --paper-button-ink-color: var(--app-accent-color);
+        --paper-icon-button-ink-color: var(--app-accent-color);
+        --paper-spinner-color: var(--app-accent-color);
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        color: var(--app-primary-color);     
+        padding-top: 130px;
       }
+
+      app-header {
+        @apply(--layout-fixed-top);
+        z-index: 1;
+        background-color: var(--app-accent-color);
+      }
+      paper-icon-button {
+        color: #ffffff;
+      }
+      .left-bar-item {
+        width: 40px;
+      }      
+      .menu-btn {
+        display: none;
+      }
+      :host(:not([page=detail])) .back-btn {
+        display: none;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        line-height: 40px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+      app-drawer {
+        z-index: 3;
+      }
+      iron-pages {
+        max-width: 1440px;
+        margin: 0 auto;
+      }
+      /* small screen */
+      @media (max-width: 767px) {
+        :host {
+          padding-top: 64px;
+        }
+        .menu-btn {
+          display: block;
+        }
+        :host([page=detail]) .menu-btn {
+          display: none;
+        }
+      }     
+      
+      
+      
     </style>
-    <h2>Hello [[prop1]]f</h2>
+    <!--
+      app-location and app-route elements provide the state of the URL for the app.
+    -->
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>   
+    
+
+     <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
+      <app-toolbar>
+        <div class="left-bar-item">
+          <paper-icon-button
+              class="menu-btn"
+              icon="menu"
+              on-click="_toggleDrawer"
+              >
+            
+          </paper-icon-button>
+     
+          <a class="back-btn" href="/overview" tabindex="-1">
+            <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
+          </a>
+        </div>
+             <div title>APP</div>
+      </app-toolbar>
+
+      <!-- Lazy-create the tabs for larger screen sizes. -->
+      <div id="tabContainer" primary$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
+        <template is="dom-if" if="[[_shouldRenderTabs]]">errewrd
+          <prytym-tabs>
+
+          </prytym-tabs>
+        </template>
+      </div>
+    </app-header>   
+    <!-- Lazy-create the drawer for small screen sizes. -->
+    <template is="dom-if" if="[[_shouldRenderDrawer]]">
+      <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
+      <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
+        <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
+            <a name="overview" href="/overview">Overview</a>
+            <a name="world" href="/world">World</a>
+        </iron-selector>
+      </app-drawer>
+    </template>
+ 
+    <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+      <!-- home view -->
+      <prymtym-overview name="overview"></prymtym-overview>
+
+    </iron-pages>
+    
   </template>
 
   <script>
@@ -16,12 +161,149 @@
       is: 'prymtym-app',
 
       properties: {
-        prop1: {
+
+        page: {
           type: String,
-          value: 'prymtym-app',
+          reflectToAttribute: true,
+          observer: '_pageChanged'
         },
+        _shouldRenderDrawer: {
+          computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
+        },
+        _shouldShowTabs: {
+          computed: '_computeShouldShowTabs(page, smallScreen)'
+        },
+        _shouldRenderTabs: {
+          computed: '_computeShouldRenderTabs(_shouldShowTabs, loadComplete)'
+        }       
+      },
+      observers: [
+        '_routePageChanged(routeData.page)'
+      ],
+      listeners: {
+        'change-section': '_onChangeSection'
+      },      
+      created: function() {
+        this.removeAttribute('unresolved');
+      },
+      ready: function() {
+        // listen for online/offline
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.listen(window, 'online', '_notifyNetworkStatus');
+          this.listen(window, 'offline', '_notifyNetworkStatus');
+        });
+      },      
+    _routePageChanged: function(page) {
+        this.page = page || 'overview';
+        // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
+        // with `behavior: 'silent'` to disable header scroll effects during the scroll.
+        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+        // Close the drawer - in case the *route* change came from a link in the drawer.
+        this.drawerOpened = false;
+      },
+      _pageChanged: function(page, oldPage) {
+        if (page != null) {
+          // home route is eagerly loaded
+          if (page == 'overview') {
+            this._pageLoaded(Boolean(oldPage));
+          // other routes are lazy loaded
+          } else {
+            this.importHref(
+              this.resolveUrl('prymtym-' + page + '.html'),
+              function() {
+                this._pageLoaded(Boolean(oldPage));
+              }, null, true);
+          }
+        }
+      },
+ 
+      _pageLoaded: function(shouldResetLayout) {
+        this._ensureLazyLoaded();
+        if (shouldResetLayout) {
+          // The size of the header depends on the page (e.g. on some pages the tabs
+          // do not appear), so reset the header's layout only when switching pages.
+          this.async(function() {
+            this.$.header.resetLayout();
+          }, 1);
+        }
+      },
+      _ensureLazyLoaded: function() {
+        // load lazy resources after render and set `loadComplete` when done.
+        if (!this.loadComplete) {
+          Polymer.RenderStatus.afterNextRender(this, function() {
+            this._notifyNetworkStatus(); // test
+            this.loadComplete = true;   // test         
+            //this.importHref(this.resolveUrl('lazy-resources.html'), function() {
+              // Register service worker if supported.
+              /*
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js');
+              }
+              */
+              //this._notifyNetworkStatus();
+              //this.loadComplete = true;
+            //});
+          });
+        }
+      },      
+      _notifyNetworkStatus: function() {
+        var oldOffline = this.offline;
+        this.offline =  !navigator.onLine;
+        // Show the snackbar if the user is offline when starting a new session
+        // or if the network status changed.
+        if (this.offline || (!this.offline && oldOffline === true)) {
+          /*
+          if (!this._networkSnackbar) {
+            this._networkSnackbar = document.createElement('shop-snackbar');
+            Polymer.dom(this.root).appendChild(this._networkSnackbar);
+          }
+          Polymer.dom(this._networkSnackbar).innerHTML = this.offline ?
+              'You are offline' : 'You are online';
+          this._networkSnackbar.open();
+          */
+        }
+      },      
+      _toggleDrawer: function() {
+        this.drawerOpened = !this.drawerOpened;
       },
 
+      // Elements in the app can notify section changes.
+      // Response by a11y announcing the section and syncronizing the category.
+      _onChangeSection: function(event) {
+        var detail = event.detail;
+        // Announce the page's title
+        if (detail.title) {
+          document.title = detail.title + ' - PRYMTYM';
+          this._announce(detail.title + ', loaded');
+        }
+      },
+      // Elements in the app can notify a change to be a11y announced.
+      _onAnnounce: function(e) {
+        this._announce(e.detail);
+      },
+      
+      // A11y announce the given message.
+      _announce: function(message) {
+        this._a11yLabel = '';
+        this.debounce('_a11yAnnouncer', function() {
+          this._a11yLabel = message;
+        }, 100);
+      },
+
+      _computeShouldRenderDrawer: function(smallScreen, loadComplete) {
+        return smallScreen && loadComplete;
+      },
+      _computeShouldShowTabs: function(page, smallScreen) {
+        return (page === 'overview' || page === 'list' || page === 'detail') && !smallScreen;
+      },
+      _computeShouldRenderTabs: function(_shouldShowTabs, loadComplete) {
+        return _shouldShowTabs && loadComplete;
+      },
+      _computeShouldRenderDrawer: function(smallScreen, loadComplete) {
+        return smallScreen && loadComplete;
+      },
+      
+      
     });
   </script>
 </dom-module>
