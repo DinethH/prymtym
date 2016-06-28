@@ -11,6 +11,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
     <link rel="import" href="/src/prymtym-app.html" async>
+    
+
     <style>
       body {
         margin: 0;
@@ -22,13 +24,21 @@
       /* styling for render while resources are loading */
       prymtym-app[unresolved] {
         display: block;
-        height: 64px;
-        background: #BF360C;
+        //height: 64px;
+        //background: #BF360C;
       }
     </style>   
     
   </head>
   <body>
+    
+    <firebase-app
+        name="prymtym"
+        api-key="AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40"
+        auth-domain="prymtymeapp.firebaseapp.com"
+        database-url="https://prymtymeapp.firebaseio.com">
+    </firebase-app>    
+    
     <prymtym-app unresolved></prymtym-app>
     
     <script>

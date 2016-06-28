@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
@@ -9,17 +11,20 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-
-<!-- test -->
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<!-- test 
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="prymtym-icons.html">
-<!-- test end -->
+test end -->
+
 
 
 <link rel="import" href="prymtym-overview.html">
+
+<link rel="import" href="prymtym-sign.html">
 
 <dom-module id="prymtym-app">
   <template>
@@ -64,15 +69,20 @@
       }
       .drawer-list a {
         display: block;
-        padding: 0 16px;
+        padding: 8px 16px;
         line-height: 40px;
         text-decoration: none;
-        color: var(--app-secondary-color);
+        font-weight: 500;
+        color: #666;
+        position: relative;
       }
       .drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
+        color: var(--app-accent-color);
+        background: #ececec;
       }
+      hr {
+        border: 1px solid #ececec;
+      }      
       app-drawer {
         z-index: 3;
       }
@@ -92,7 +102,10 @@
           display: none;
         }
       }     
-      
+     .menu-icon {
+        padding-right: 8px;
+        margin-top: -3px;
+      }     
       
       
     </style>
@@ -106,9 +119,19 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
+    
     <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>   
     
-
+    <firebase-auth 
+      app-name="prymtym"
+      id="auth" 
+      user="{{user}}" 
+      provider="google" 
+      on-error="handleError"
+      >
+    </firebase-auth>
+    
+    
      <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
       <app-toolbar>
         <div class="left-bar-item">
@@ -124,7 +147,6 @@
             <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
           </a>
         </div>
-             <div title>APP</div>
       </app-toolbar>
 
       <!-- Lazy-create the tabs for larger screen sizes. -->
@@ -141,13 +163,34 @@
       <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
       <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
         <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
-            <a name="overview" href="/overview">Overview</a>
-            <a name="world" href="/world">World</a>
+          <a name="overview" href="/overview">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>Overview</a>
+            
+          <a name="community" href="/community">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
+          
+          <hr  noshade="noshade">
+          
+          <a name="settings" href="/settings">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:settings"></iron-icon>Settings</a>
+          <a name="about" href="/about">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
+          <a name="support" href="/support">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
+            
+            <a on-tap="logOut" href="#">
+            <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
         </iron-selector>
       </app-drawer>
     </template>
  
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+      <prymtym-sign name="sign"></prymtym-sign>
       <!-- home view -->
       <prymtym-overview name="overview"></prymtym-overview>
 
@@ -167,6 +210,15 @@
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
+        user: {
+          type: Object,
+          notify: true,
+          observer: '_userChanged'
+        },  
+        signedIn: {
+          type: Boolean,
+          observer: '_signedInChanged'
+        },
         _shouldRenderDrawer: {
           computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
         },
@@ -181,7 +233,8 @@
         '_routePageChanged(routeData.page)'
       ],
       listeners: {
-        'change-section': '_onChangeSection'
+        'change-section': '_onChangeSection',
+        'firebase-signin': '_signIn'
       },      
       created: function() {
         this.removeAttribute('unresolved');
@@ -194,6 +247,7 @@
         });
       },      
     _routePageChanged: function(page) {
+        
         this.page = page || 'overview';
         // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
         // with `behavior: 'silent'` to disable header scroll effects during the scroll.
@@ -231,18 +285,18 @@
         // load lazy resources after render and set `loadComplete` when done.
         if (!this.loadComplete) {
           Polymer.RenderStatus.afterNextRender(this, function() {
-            this._notifyNetworkStatus(); // test
-            this.loadComplete = true;   // test         
-            //this.importHref(this.resolveUrl('lazy-resources.html'), function() {
+            //this._notifyNetworkStatus(); // test
+            //this.loadComplete = true;   // test         
+            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
               // Register service worker if supported.
               /*
               if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service-worker.js');
               }
               */
-              //this._notifyNetworkStatus();
-              //this.loadComplete = true;
-            //});
+              this._notifyNetworkStatus();
+              this.loadComplete = true;
+            });
           });
         }
       },      
@@ -294,7 +348,7 @@
         return smallScreen && loadComplete;
       },
       _computeShouldShowTabs: function(page, smallScreen) {
-        return (page === 'overview' || page === 'list' || page === 'detail') && !smallScreen;
+        return (page === 'overview' || page === 'sign' || page === 'detail') && !smallScreen;
       },
       _computeShouldRenderTabs: function(_shouldShowTabs, loadComplete) {
         return _shouldShowTabs && loadComplete;
@@ -302,7 +356,27 @@
       _computeShouldRenderDrawer: function(smallScreen, loadComplete) {
         return smallScreen && loadComplete;
       },
-      
+      _signIn: function () {
+        this.$.auth.signInWithPopup()    
+          .then(function(response) {
+
+            //console.log(response.credential.accessToken);
+            //this.facebookAccessToken = response.credential.accessToken;
+          })
+          .catch(function(error) {
+            
+          });
+      },
+      _userChanged: function () {
+        console.log(this.user);
+        if (this.user === null) {
+          this.page = 'sign';
+        } 
+        else if (this.user) {
+          this.signedIn = true;
+          this.page = 'overview';
+        }      
+      }
       
     });
   </script>
