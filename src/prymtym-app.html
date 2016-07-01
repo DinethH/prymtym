@@ -22,7 +22,7 @@ test end -->
 
 <link rel="import" href="prymtym-sign.html">
 
-<link rel="import" href="prymtym-overview.html">
+<link rel="import" href="prymtym-home.html">
 
 
 
@@ -163,7 +163,7 @@ test end -->
             
           </paper-icon-button>
      
-          <a class="back-btn" href="/overview" tabindex="-1">
+          <a class="back-btn" href="/home" tabindex="-1">
             <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
           </a>
         </div>
@@ -193,9 +193,9 @@ test end -->
           </div>
         </div>
         <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
-          <a name="overview" href="/overview">
+          <a name="home" href="/home">
             <paper-ripple></paper-ripple>
-            <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>Overview</a>
+            <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>home</a>
             
           <a name="community" href="/community">
             <paper-ripple></paper-ripple>
@@ -222,8 +222,11 @@ test end -->
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
       <prymtym-sign name="sign"></prymtym-sign>
       <!-- home view -->
-      <prymtym-overview name="overview"></prymtym-overview>
+      <prymtym-home name="home"></prymtym-home>
       <prymtym-community name="community"></prymtym-community>
+      <prymtym-settings name="settings"></prymtym-settings>
+      <prymtym-about name="about"></prymtym-about>
+      <prymtym-support name="support"></prymtym-support>
 
     </iron-pages>
     
@@ -278,7 +281,7 @@ test end -->
       },      
     _routePageChanged: function(page) {
         
-        this.page = page || 'overview';
+        this.page = page || 'home';
         // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
         // with `behavior: 'silent'` to disable header scroll effects during the scroll.
         Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
@@ -288,7 +291,7 @@ test end -->
       _pageChanged: function(page, oldPage) {
         if (page != null) {
           // home route is eagerly loaded
-          if (page == 'overview') {
+          if (page == 'home') {
             this._pageLoaded(Boolean(oldPage));
           // other routes are lazy loaded
           } else {
@@ -378,7 +381,7 @@ test end -->
         return smallScreen && loadComplete;
       },
       _computeShouldShowTabs: function(page, smallScreen) {
-        return (page === 'overview' || page === 'sign' || page === 'community') && !smallScreen;
+        return (page === 'home' || page === 'sign' || page === 'community') && !smallScreen;
       },
       _computeShouldRenderTabs: function(_shouldShowTabs, loadComplete) {
         return _shouldShowTabs && loadComplete;
@@ -404,7 +407,7 @@ test end -->
         } 
         else if (this.user) {
           this.signedIn = true;
-          this.page = 'overview';
+          this.page = 'home';
         }      
       }
       

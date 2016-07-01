@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<dom-module id="prymtym-community">
+<dom-module id="prymtym-settings">
 
   <template>
 
@@ -12,13 +12,12 @@
       }
     </style>
 
-    COMMUNITY
-
+    Settings
   </template>
 
   <script>
     Polymer({
-      is: 'prymtym-community',
+      is: 'prymtym-settings',
       properties: {
         visible: {
           type: Boolean,
@@ -32,7 +31,7 @@
       },
       _visibleChanged: function(visible) {
         if (visible) {
-          this.fire('change-section', { title: 'Community' });
+          this.fire('change-section', { title: 'Settings' });
         }
       },
       dataChanged: function (newData, oldData) {
