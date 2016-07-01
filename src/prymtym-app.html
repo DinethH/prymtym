@@ -106,7 +106,27 @@ test end -->
         padding-right: 8px;
         margin-top: -3px;
       }     
+       .header {
+        background-color: #BF360C;
+        height: 130px;
+        display: flex;
+        align-items: flex-end;
+      }
+      .header-inner {
+        margin-left: 16px;
+        margin-bottom: 8px;
+      }
       
+      .profile-pic img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        //background: #fff;
+      }
+      .username {
+        margin-top: 8px;
+        color: #fff;
+      }     
       
     </style>
     <!--
@@ -162,6 +182,16 @@ test end -->
     <template is="dom-if" if="[[_shouldRenderDrawer]]">
       <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
       <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
+        <div class="header">
+          <div class="header-inner">
+            <div class="profile-pic">
+              <img src="{{user.photoURL}}" >
+            </div>
+            <div class="username">
+              {{user.displayName}}
+            </div>
+          </div>
+        </div>
         <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
           <a name="overview" href="/overview">
             <paper-ripple></paper-ripple>
