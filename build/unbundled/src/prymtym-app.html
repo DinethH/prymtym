@@ -11,6 +11,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 
 
 
@@ -21,7 +22,7 @@
 
 </head><body><dom-module id="prymtym-app">
   <template>
-    <style>:host{display:block;position:relative;min-height:100vh;--app-primary-color:#202020;--app-secondary-color:#333;--app-accent-color:#BF360C;--paper-button-ink-color:var(--app-accent-color);--paper-icon-button-ink-color:var(--app-accent-color);--paper-spinner-color:var(--app-accent-color);-webkit-tap-highlight-color:rgba(0, 0, 0, 0);color:var(--app-primary-color);padding-top:130px;}app-header{@apply (--layout-fixed-top);z-index:1;background-color:var(--app-accent-color);}paper-icon-button{color:#ffffff;}.left-bar-item{width:40px;}.menu-btn{display:none;}:host(:not([page=detail])) .back-btn{display:none;}[hidden]{display:none !important;}.drawer-list{margin:0 20px;}.drawer-list a{display:block;padding:0 16px;line-height:40px;text-decoration:none;color:var(--app-secondary-color);}.drawer-list a.iron-selected{color:black;font-weight:bold;}app-drawer{z-index:3;}iron-pages{max-width:1440px;margin:0 auto;}@media (max-width: 767px){:host{padding-top:64px;}.menu-btn{display:block;}:host([page=detail]) .menu-btn{display:none;}}</style>
+    <style>:host{display:block;position:relative;min-height:100vh;--app-primary-color:#202020;--app-secondary-color:#333;--app-accent-color:#BF360C;--paper-button-ink-color:var(--app-accent-color);--paper-icon-button-ink-color:var(--app-accent-color);--paper-spinner-color:var(--app-accent-color);-webkit-tap-highlight-color:rgba(0, 0, 0, 0);color:var(--app-primary-color);padding-top:130px;}app-header{@apply (--layout-fixed-top);z-index:1;background-color:var(--app-accent-color);}paper-icon-button{color:#ffffff;}.left-bar-item{width:40px;}.menu-btn{display:none;}:host(:not([page=detail])) .back-btn{display:none;}[hidden]{display:none !important;}.drawer-list{margin:0 20px;}.drawer-list a{display:block;padding:8px 16px;line-height:40px;text-decoration:none;font-weight:500;color:#666;position:relative;}.drawer-list a.iron-selected{color:var(--app-accent-color);background:#ececec;}hr{border:1px solid #ececec;}app-drawer{z-index:3;}iron-pages{max-width:1440px;margin:0 auto;}@media (max-width: 767px){:host{padding-top:64px;}.menu-btn{display:block;}:host([page=detail]) .menu-btn{display:none;}}.menu-icon{padding-right:8px;margin-top:-3px;}</style>
     
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
@@ -60,8 +61,28 @@
       
       <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
         <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
-            <a name="overview" href="/overview">Overview</a>
-            <a name="world" href="/world">World</a>
+          <a name="overview" href="/overview">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>Overview</a>
+            
+          <a name="community" href="/community">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
+          
+          <hr noshade="noshade">
+          
+          <a name="settings" href="/settings">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:settings"></iron-icon>Settings</a>
+          <a name="about" href="/about">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
+          <a name="support" href="/support">
+            <paper-ripple></paper-ripple>
+            <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
+            
+            <a on-tap="logOut" href="#">
+            <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
         </iron-selector>
       </app-drawer>
     </template>

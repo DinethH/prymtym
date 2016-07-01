@@ -2,7 +2,11 @@
   "entrypoint": "index.html",
   "shell": "src/prymtym-app.html",
   "fragments": [
-  
+      "/src/prymtym-app.html",
+      "/src/prymtym-icons.html",
+      "/src/prymtym-overview.html",
+      "/src/prymtym-sign.html",
+      "/src/prymtym-tabs.html"
 
     ]
 }

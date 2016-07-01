@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
-<dom-module id="prymtym-overview">
+<dom-module id="prymtym-community">
 
   <template>
 
@@ -13,23 +13,13 @@
       }
     </style>
 
-    <firebase-document
-        id="query"
-        app-name="prymtym"
-        path="/users/2iZHs9i2VgMvLQLcSyW12RlOHld2/energyLevels/2016/6/27/{{val}}"
-        data="{{data}}">
-    </firebase-document>
-
-    <paper-input type="number" value="{{data}}"></paper-input>
-    {{data}}
-    <paper-input type="number" value="{{val}}"></paper-input>
-    {{val}}
+    COMMUNITY
 
   </template>
 
   <script>
     Polymer({
-      is: 'prymtym-overview',
+      is: 'prymtym-community',
       properties: {
         visible: {
           type: Boolean,
@@ -43,7 +33,7 @@
       },
       _visibleChanged: function(visible) {
         if (visible) {
-          this.fire('change-section', { title: 'overview' });
+          this.fire('change-section', { title: 'community' });
         }
       },
       dataChanged: function (newData, oldData) {

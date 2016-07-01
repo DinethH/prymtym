@@ -11,7 +11,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+
 <!-- test 
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
@@ -20,11 +20,11 @@
 <link rel="import" href="prymtym-icons.html">
 test end -->
 
-
+<link rel="import" href="prymtym-sign.html">
 
 <link rel="import" href="prymtym-overview.html">
 
-<link rel="import" href="prymtym-sign.html">
+
 
 <dom-module id="prymtym-app">
   <template>
@@ -193,6 +193,7 @@ test end -->
       <prymtym-sign name="sign"></prymtym-sign>
       <!-- home view -->
       <prymtym-overview name="overview"></prymtym-overview>
+      <prymtym-community name="community"></prymtym-community>
 
     </iron-pages>
     
@@ -216,8 +217,7 @@ test end -->
           observer: '_userChanged'
         },  
         signedIn: {
-          type: Boolean,
-          observer: '_signedInChanged'
+          type: Boolean
         },
         _shouldRenderDrawer: {
           computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
@@ -348,7 +348,7 @@ test end -->
         return smallScreen && loadComplete;
       },
       _computeShouldShowTabs: function(page, smallScreen) {
-        return (page === 'overview' || page === 'sign' || page === 'detail') && !smallScreen;
+        return (page === 'overview' || page === 'sign' || page === 'community') && !smallScreen;
       },
       _computeShouldRenderTabs: function(_shouldShowTabs, loadComplete) {
         return _shouldShowTabs && loadComplete;
