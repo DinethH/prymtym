@@ -401,13 +401,18 @@ test end -->
           });
       },
       _userChanged: function () {
-        console.log(this.user);
         if (this.user === null) {
           this.page = 'sign';
         } 
         else if (this.user) {
+          
           this.signedIn = true;
-          this.page = 'home';
+          if (this.routeData.page == "") {
+            this.page = "home";
+          } else {
+            this.page = this.routeData.page;
+          }
+          
         }      
       }
       
