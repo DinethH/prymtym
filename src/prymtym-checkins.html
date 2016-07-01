@@ -1,0 +1,77 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="prymtym-checkins">
+  <template strip-whitespace>
+    <style>
+      :host {
+        display: block;
+        margin-right: 10px;
+      }
+      .circle {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+      }
+      .circle-current {
+        width: 18px;
+        height: 18px;       
+      }
+      .circle-wrapper {
+        height: 24px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;       
+      }
+      .hour {
+        padding-top: 8px;
+        font-size: 12px;        
+      }
+      .hour-current {
+        font-weight: bold;        
+      }
+      .checked {
+        background: #ccc;
+      }
+
+    </style>
+    <div class="circle-wrapper">
+      <div class$="{{setCurrent(current, checked)}}"></div>
+    </div>
+    <div class$="{{setHour(current)}}">
+      {{hour}}
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'prymtym-checkins',
+      properties: {
+        current: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        hour: {
+          type: String
+        },
+        checked: {
+          type: Boolean,
+          value: false
+        }
+      },
+      setCurrent: function (current, checked) {
+        var classes = 'circle';
+        if(current) classes += ' circle-current';
+        if(checked) classes += ' checked';
+        return classes;
+      },
+      setHour: function (current) {
+        var classes = 'hour';
+        if(current) classes += ' hour-current';
+        return classes;
+      }
+
+    });
+  </script>
+</dom-module>
