@@ -4,8 +4,10 @@
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../bower_components/google-chart/google-chart.html">
 <link rel="import" href="../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="prymtym-checkins.html">
+<link rel="import" href="prymtym-checkins-wrapper.html">
 
 
 <dom-module id="prymtym-home">
@@ -56,15 +58,10 @@
         background: #fff;
         font-size: 20px;
         font-weight: 500;
-        padding-left: 40px;
+        padding-left: 20px;
         padding-top: 20px;
       } 
-      .checkins-wrapper {
-        display: flex;
-        padding-left: 40px;   
-        padding-bottom: 20px;
-      }
-      
+
       
       paper-fab {
         --paper-fab-background: orange;
@@ -73,7 +70,20 @@
         bottom: 0;
         right: 0;
         margin: 16px;
-      }      
+      } 
+      
+       .checkins-wrapper {
+
+        padding-bottom: 20px;
+  
+      }
+        ::-webkit-scrollbar { 
+        display: none; 
+    }   
+   
+
+
+           
     </style>
 
     <div class="header">
@@ -96,19 +106,13 @@
     
     <div class="checkins">
       <h3 class="label">Checkins</h3>
-      <div class="checkins-wrapper">
-        <prymtym-checkins checked hour="8am"></prymtym-checkins>
-        <prymtym-checkins checked hour="9am"></prymtym-checkins>
-        <prymtym-checkins hour="10am"></prymtym-checkins>
-        <prymtym-checkins checked hour="11am"></prymtym-checkins>
-        <prymtym-checkins hour="12pm" current="true"></prymtym-checkins>
-        <prymtym-checkins hour="1pm"></prymtym-checkins>
-      </div>
+           <div id="scrollable-element" style="overflow: auto; margin-left: 20px; margin-right: 20px;">
+            <prymtym-checkins-wrapper id="checkinsWrapper" scroll-target="scrollable-element" class="checkins-wrapper"></prymtym-checkins-wrapper>
+          </div>
     </div>
     
-    
-    
-        
+  
+
     <div class="progress">
       <h3 class="label">Hourly Averages</h3>
       <google-chart id="chartAvg"
@@ -152,8 +156,11 @@
           }
         }
       },
+
       behaviors: [
-        Polymer.IronResizableBehavior, Polymer.NeonAnimatableBehavior
+        Polymer.IronResizableBehavior, 
+        Polymer.NeonAnimatableBehavior, 
+
       ],  
       listeners: {
         'iron-resize': '_onIronResize'
@@ -168,7 +175,12 @@
       },
       dataChanged: function (newData, oldData) {
         //console.log(this.data);
-      }      
+      },
+
+      
+      checkin: function () {
+        this.$.checkinsWrapper.scroll(250, 0);
+      }
     });
   </script>
 

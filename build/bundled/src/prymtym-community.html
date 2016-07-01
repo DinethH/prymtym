@@ -1,0 +1,13 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="prymtym-app.html"></head><body><dom-module id="prymtym-community">
+
+  <template>
+
+    <style>:host{display:block;color:white;background:red;}</style>
+
+    COMMUNITY
+
+  </template>
+
+  <script>Polymer({is:"prymtym-community",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.NeonAnimatableBehavior],_visibleChanged:function(e){e&&this.fire("change-section",{title:"Community"})},dataChanged:function(e,i){}});</script>
+
+</dom-module></body></html>

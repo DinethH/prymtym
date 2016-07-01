@@ -1,0 +1,64 @@
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/google-chart/google-chart.html">
+<link rel="import" href="../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="prymtym-checkins.html">
+
+
+</head><body><dom-module id="prymtym-home">
+
+  <template>
+
+    <style>:host{display:block;}.header{background-color:var(--app-accent-color);height:175px;}.header-blocks{display:flex;align-items:flex-end;justify-content:center;height:175px;}.block{flex:1;text-align:center;padding-bottom:20px;color:white;}.block-value, .block-item{text-transform:uppercase;}.block-item{opacity:0.7;font-size:0.9em;}google-chart{height:300px;width:100%;}.progress, .checkins{margin:8px;box-shadow:1px 1px 10px #ccc;}.label{background:#fff;font-size:20px;font-weight:500;padding-left:40px;padding-top:20px;}.checkins-wrapper{display:flex;padding-left:40px;padding-bottom:20px;}paper-fab{--paper-fab-background:orange;--paper-fab-keyboard-focus-background	:orange;position:fixed;bottom:0;right:0;margin:16px;}</style>
+
+    <div class="header">
+      <div class="header-blocks">
+        <div class="block">
+          <div class="block-value">awesome</div>
+          <div class="block-item">now</div>
+        </div>
+        <div class="block">
+          <div class="block-value">8 am</div>
+          <div class="block-item">prym hour</div>
+        </div>
+        <div class="block">
+          <div class="block-value">75%</div>
+          <div class="block-item">percentile</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="checkins">
+      <h3 class="label">Checkins</h3>
+      <div class="checkins-wrapper">
+        <prymtym-checkins checked="" hour="8am"></prymtym-checkins>
+        <prymtym-checkins checked="" hour="9am"></prymtym-checkins>
+        <prymtym-checkins hour="10am"></prymtym-checkins>
+        <prymtym-checkins checked="" hour="11am"></prymtym-checkins>
+        <prymtym-checkins hour="12pm" current="true"></prymtym-checkins>
+        <prymtym-checkins hour="1pm"></prymtym-checkins>
+      </div>
+    </div>
+    
+    
+    
+        
+    <div class="progress">
+      <h3 class="label">Hourly Averages</h3>
+      <google-chart id="chartAvg" type="line" options="{&quot;colors&quot;:[&quot;#BF360C&quot;], &quot;legend&quot;: &quot;none&quot;, &quot;curveType&quot;: &quot;function&quot;}" cols="[{&quot;label&quot;:&quot;Hour&quot;, &quot;type&quot;:&quot;string&quot;}, {&quot;label&quot;:&quot;Energy Levels&quot;, &quot;type&quot;:&quot;number&quot;}]" rows="[[&quot;8&quot;, 2],[&quot;9&quot;, 0.5],[&quot;10&quot;, 3.5],[&quot;11&quot;, 2.5],[&quot;12&quot;, 2.2],[&quot;13&quot;, 3.6],[&quot;14&quot;, 0.3],[&quot;15&quot;, 3.9],[&quot;16&quot;, 3.4],[&quot;17&quot;, 0.6]]">
+      </google-chart>
+    </div>
+
+
+
+    <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>   
+
+  </template>
+
+  <script>Polymer({is:"prymtym-home",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.IronResizableBehavior,Polymer.NeonAnimatableBehavior],listeners:{"iron-resize":"_onIronResize"},_onIronResize:function(){this.$.chartAvg.drawChart()},_visibleChanged:function(e){e&&this.fire("change-section",{title:"Home"})},dataChanged:function(e,i){}});</script>
+
+</dom-module></body></html>

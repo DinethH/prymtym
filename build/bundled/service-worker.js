@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","951140298db2aedee8f16a238ba2edf4"],["/src/prymtym-app.html","71b5f45342e9d062b7b46db88406b0ae"]];
+var PrecacheConfig = [["/index.html","7a0b9f13faaafcd7f1d9c43cb9a89570"],["/src/prymtym-about.html","bf9b95ee02e7e58d7df1e28a34f66d83"],["/src/prymtym-app.html","c30d1d1e29dfb14ee6119b4bd3cdca29"],["/src/prymtym-community.html","935bedcdf443f3c52cdfc0324b75dcf1"],["/src/prymtym-home.html","293e7410fbb5044e2b4912f3ce48c1da"],["/src/prymtym-settings.html","ac175079d8015778ebd22090dcb54645"],["/src/prymtym-sign.html","b7c71120fcae03d3ef1a386bdb7f27de"],["/src/prymtym-support.html","9debe5f80a0647b5843997b0fb27703c"],["/src/prymtym-tabs.html","e152cd112d847ae244f49af467c4bf13"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
