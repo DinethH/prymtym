@@ -1,5 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 
 <dom-module id="prymtym-home">
 
@@ -13,17 +15,7 @@
       }
     </style>
 
-    <firebase-document
-        id="query"
-        app-name="prymtym"
-        path="/users/2iZHs9i2VgMvLQLcSyW12RlOHld2/energyLevels/2016/6/27/{{val}}"
-        data="{{data}}">
-    </firebase-document>
-
-    <paper-input type="number" value="{{data}}"></paper-input>
-    {{data}}
-    <paper-input type="number" value="{{val}}"></paper-input>
-    {{val}}
+    HOME
 
   </template>
 
@@ -39,8 +31,24 @@
           type: Number,
           observer: 'dataChanged'
         },
-        val: Number
+        animationConfig: {
+          value: function() {
+            return {
+              'entry': {
+                name: 'fade-in-animation',
+                node: this
+              },
+              'exit': {
+                name: 'fade-out-animation',
+                node: this
+              }
+            }
+          }
+        }
       },
+      behaviors: [
+        Polymer.NeonAnimatableBehavior
+      ],      
       _visibleChanged: function(visible) {
         if (visible) {
           this.fire('change-section', { title: 'Home' });

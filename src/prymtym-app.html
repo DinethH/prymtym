@@ -9,7 +9,8 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 
 <!-- test 
@@ -32,7 +33,6 @@ test end -->
       :host {
         display: block;
         position: relative;
-        min-height: 100vh;
         --app-primary-color: #202020;
         --app-secondary-color: #333;
         --app-accent-color: #BF360C;
@@ -86,9 +86,10 @@ test end -->
       app-drawer {
         z-index: 3;
       }
-      iron-pages {
+      neon-animated-pages {
         max-width: 1440px;
         margin: 0 auto;
+        height: calc(100vh - 60px);
       }
       /* small screen */
       @media (max-width: 767px) {
@@ -152,7 +153,7 @@ test end -->
     </firebase-auth>
     
     
-     <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
+     <app-header role="navigation" id="header" effects="waterfall" condenses fixed>
       <app-toolbar>
         <div class="left-bar-item">
           <paper-icon-button
@@ -219,7 +220,7 @@ test end -->
       </app-drawer>
     </template>
  
-    <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+    <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
       <prymtym-sign name="sign"></prymtym-sign>
       <!-- home view -->
       <prymtym-home name="home"></prymtym-home>
@@ -228,7 +229,7 @@ test end -->
       <prymtym-about name="about"></prymtym-about>
       <prymtym-support name="support"></prymtym-support>
 
-    </iron-pages>
+    </neon-animated-pages>
     
   </template>
 
