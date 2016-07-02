@@ -38,11 +38,12 @@
     </div>
 
 
-
+    <a name="checkin" href="/checkin">
     <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>   
+    </a>
 
   </template>
 
-  <script>Polymer({is:"prymtym-home",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.IronResizableBehavior,Polymer.NeonAnimatableBehavior],listeners:{"iron-resize":"_onIronResize"},_onIronResize:function(){this.$.chartAvg.drawChart()},_visibleChanged:function(e){e&&this.fire("change-section",{title:"Home"})},dataChanged:function(e,i){},checkin:function(){this.$.checkinsWrapper.scroll(250,0)}});</script>
+  <script>Polymer({is:"prymtym-home",properties:{page:{type:String,notify:!0},visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.IronResizableBehavior,Polymer.NeonAnimatableBehavior],listeners:{"iron-resize":"_onIronResize"},_onIronResize:function(){this.$.chartAvg.drawChart()},_visibleChanged:function(e){e&&this.fire("change-section",{title:"Home"})},dataChanged:function(e,n){},checkin:function(){}});</script>
 
 </dom-module></body></html>
