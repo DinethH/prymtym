@@ -124,8 +124,9 @@
     </div>
 
 
-
+    <a name="checkin" href="/checkin">
     <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>   
+    </a>
 
   </template>
 
@@ -133,6 +134,10 @@
     Polymer({
       is: 'prymtym-home',
       properties: {
+        page: {
+          type: String,
+          notify: true
+        },
         visible: {
           type: Boolean,
           observer: '_visibleChanged'
@@ -179,7 +184,7 @@
 
       
       checkin: function () {
-        this.$.checkinsWrapper.scroll(250, 0);
+
       }
     });
   </script>
