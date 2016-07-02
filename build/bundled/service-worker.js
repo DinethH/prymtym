@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","7a0b9f13faaafcd7f1d9c43cb9a89570"],["/src/prymtym-about.html","bf9b95ee02e7e58d7df1e28a34f66d83"],["/src/prymtym-app.html","c30d1d1e29dfb14ee6119b4bd3cdca29"],["/src/prymtym-community.html","935bedcdf443f3c52cdfc0324b75dcf1"],["/src/prymtym-home.html","293e7410fbb5044e2b4912f3ce48c1da"],["/src/prymtym-settings.html","ac175079d8015778ebd22090dcb54645"],["/src/prymtym-sign.html","b7c71120fcae03d3ef1a386bdb7f27de"],["/src/prymtym-support.html","9debe5f80a0647b5843997b0fb27703c"],["/src/prymtym-tabs.html","e152cd112d847ae244f49af467c4bf13"]];
+var PrecacheConfig = [["/bower_components/firebase/firebase.js","c03269be4e77cdea1d7fdd824831f3d3"],["/bower_components/google-chart/loader.js","526c7a1b6d15c9d7073d042928f87e29"],["/bower_components/webcomponentsjs/webcomponents-lite.min.js","0fc977baabe843e858c7d6cde05986e7"],["/index.html","7a0b9f13faaafcd7f1d9c43cb9a89570"],["/manifest.json","6847f25f5ef12373d6b324c2669cc45b"],["/src/prymtym-about.html","bf9b95ee02e7e58d7df1e28a34f66d83"],["/src/prymtym-app.html","e32aaf17fccc895b1942e4d9d2cdd6c5"],["/src/prymtym-community.html","935bedcdf443f3c52cdfc0324b75dcf1"],["/src/prymtym-home.html","cbafe7e54c5d15e914b02a9ad6077daf"],["/src/prymtym-settings.html","ac175079d8015778ebd22090dcb54645"],["/src/prymtym-sign.html","b7c71120fcae03d3ef1a386bdb7f27de"],["/src/prymtym-support.html","9debe5f80a0647b5843997b0fb27703c"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
@@ -216,7 +216,7 @@ self.addEventListener('fetch', function(event) {
       cacheName = AbsoluteUrlToCacheName[urlWithoutIgnoredParameters];
     }
 
-    var navigateFallback = '';
+    var navigateFallback = '/index.html';
     // Ideally, this would check for event.request.mode === 'navigate', but that is not widely
     // supported yet:
     // https://code.google.com/p/chromium/issues/detail?id=540967

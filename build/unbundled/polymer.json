@@ -7,8 +7,7 @@
       "src/prymtym-community.html",
       "src/prymtym-settings.html",      
       "src/prymtym-about.html",      
-      "src/prymtym-support.html",      
-      "src/prymtym-tabs.html"
-
+      "src/prymtym-support.html"
+      
     ]
 }

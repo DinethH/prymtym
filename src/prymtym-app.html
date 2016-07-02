@@ -279,11 +279,11 @@ font-weight: bold;
     <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
       <prymtym-sign name="sign"></prymtym-sign>
       <!-- home view -->
-      <prymtym-home name="home"></prymtym-home>
-      <prymtym-community name="community"></prymtym-community>
-      <prymtym-settings name="settings"></prymtym-settings>
-      <prymtym-about name="about"></prymtym-about>
-      <prymtym-support name="support"></prymtym-support>
+      <prymtym-home id="home" name="home"></prymtym-home>
+      <prymtym-community id="community" name="community"></prymtym-community>
+      <prymtym-settings id="settings" name="settings"></prymtym-settings>
+      <prymtym-about id="about" name="about"></prymtym-about>
+      <prymtym-support id="support" name="support"></prymtym-support>
 
     </neon-animated-pages>
     
@@ -351,7 +351,7 @@ font-weight: bold;
           if (page == 'home') {
             this._pageLoaded(Boolean(oldPage));
           // other routes are lazy loaded
-          } else {
+          } else if (page != 'sign'&& !Polymer.isInstance(this.$.page) ) {
             this.importHref(
               this.resolveUrl('prymtym-' + page + '.html'),
               function() {

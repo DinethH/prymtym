@@ -3,6 +3,8 @@ module.exports = {
     '/index.html',
     '/manifest.json',
     '/bower_components/webcomponentsjs/webcomponents-lite.min.js',
+    '/bower_components/firebase/firebase.js',
+    '/bower_components/google-chart/loader.js',
     '/src/prymtym-app.html',
     '/src/prymtym-sign.html',
     '/src/prymtym-home.html',

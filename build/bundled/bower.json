@@ -12,7 +12,8 @@
     "platinum-elements": "PolymerElements/platinum-elements#^2.0.0",
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "google-chart": "GoogleWebComponents/google-chart#^1.0.6",
-    "polymerfire": "firebase/polymerfire#^0.9.3"
+    "polymerfire": "firebase/polymerfire#^0.9.3",
+    "iron-scroll-target-behavior": "PolymerElements/iron-scroll-target-behavior#^1.0.6"
   },
   "private": true,
   "devDependencies": {
