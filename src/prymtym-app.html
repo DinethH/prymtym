@@ -21,6 +21,7 @@
 <link rel="import" href="prymtym-icons.html">
 test end -->
 
+
 <link rel="import" href="prymtym-sign.html">
 
 <link rel="import" href="prymtym-home.html">
@@ -87,7 +88,7 @@ test end -->
         z-index: 3;
       }
       neon-animated-pages {
-        max-width: 1440px;
+        max-width: 1200px;
         margin: 0 auto;
         height: calc(100vh - 64px);
       }
@@ -127,7 +128,43 @@ test end -->
       .username {
         margin-top: 8px;
         color: #fff;
-      }     
+      }
+      .tabs a {
+        position: relative;
+        color: white;
+        text-decoration: none;
+        padding: 20px;
+             
+      }
+      .tabs {
+
+      }
+      .tabs-wrapper {
+        text-align: right;
+        width: 1200px;
+        margin: 0 auto;  
+            padding: 24px;
+      }
+
+      #tabContainer { 
+        left: 0;
+        width: 100vw;
+        
+        margin-bottom: 20px; 
+        position: fixed;
+        top: 0;
+        height: 64px;
+      }
+      .tabs a.iron-selected {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,bc2c00+100 */
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,a00a00+100 */
+background: #bf360c; /* Old browsers */
+background: -moz-linear-gradient(top,  #bf360c 0%, #bf360c 44%, #a00a00 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf360c', endColorstr='#a00a00',GradientType=0 ); /* IE6-9 */
+font-weight: bold;   
+      }
       
     </style>
     <!--
@@ -172,11 +209,30 @@ test end -->
 
       <!-- Lazy-create the tabs for larger screen sizes. -->
       <div id="tabContainer" primary$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
-        <template is="dom-if" if="[[_shouldRenderTabs]]">errewrd
-          <prytym-tabs>
-
-          </prytym-tabs>
-        </template>
+        <div class="tabs-wrapper">
+          <template is="dom-if" if="[[_shouldRenderTabs]]">
+             <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
+                  <a name="home" href="/home">
+                    <paper-ripple></paper-ripple>
+                  Home</a>  
+                  <a name="community" href="/community">
+                    <paper-ripple></paper-ripple>
+                  Community</a>  
+                  <a name="about" href="/about">
+                    <paper-ripple></paper-ripple>
+                  About</a>  
+                  <a name="support" href="/support">
+                    <paper-ripple></paper-ripple>
+                  Support</a>  
+                  <a name="settings" href="/settings">
+                    <paper-ripple></paper-ripple>
+                  Settings</a>  
+             </tabs>
+             
+  
+  
+          </template>
+        </div>
       </div>
     </app-header>   
     <!-- Lazy-create the drawer for small screen sizes. -->
@@ -382,7 +438,14 @@ test end -->
         return smallScreen && loadComplete;
       },
       _computeShouldShowTabs: function(page, smallScreen) {
-        return (page === 'home' || page === 'sign' || page === 'community') && !smallScreen;
+        return (page === 'home' 
+        || page === 'sign' 
+        || page === 'community'
+        || page === 'settings'
+        || page === 'about'
+        || page === 'support'
+        
+        ) && !smallScreen;
       },
       _computeShouldRenderTabs: function(_shouldShowTabs, loadComplete) {
         return _shouldShowTabs && loadComplete;
