@@ -12,7 +12,14 @@
         display: block;
         position: fixed !important;
         z-index: 10;   
-        
+    transform-origin: right bottom;
+    will-change: transform;
+    animation-name: ripple;
+    animation-duration: 0.2s;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;   
+        animation-timing-function: ease-in-out;
       }
       .checkin {
         width: 100%;
@@ -86,12 +93,27 @@
       }
       .answer {
         min-width: 128px;
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 20px;
-    color: white;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 20px;
+        color: white;
       }
+
+      @keyframes ripple {
+          from {
+    transform: scale(0,0);
+    opacity: 0;
+    border-top-left-radius: 50%;
+    overflow: hidden;
+          }
+          to {
+    transform: scale(1,1);
+    opacity: 1;
+    border-top-left-radius: 0;
+    overflow: hidden;
+          }
+      }       
     </style>
     
       <div id="checkin" class="checkin">
@@ -168,10 +190,7 @@
         animationConfig: {
           value: function() {
             return {
-              'entry': {
-                name: 'fade-in-animation',
-                node: this
-              },
+
               'exit': {
                 name: 'fade-out-animation',
                 node: this
