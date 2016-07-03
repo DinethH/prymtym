@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -186,9 +188,30 @@ font-weight: bold;
       user="{{user}}" 
       provider="google" 
       on-error="handleError"
+      signed-in="{{signedIn}}"
       >
     </firebase-auth>
     
+    <firebase-query
+        app-name="prymtym"
+        path="/users/[[user.uid]]"
+        data="{{userStatus}}">
+    </firebase-query>
+    
+    <app-indexeddb-mirror
+        session="[[user.uid]]"
+        key="prymtym-dates"
+        data="{{userStatus}}"
+        persisted-data="{{userStatusPersist}}"
+        log >
+    </app-indexeddb-mirror>
+    
+
+
+    <template is="dom-repeat" items="[[dates]]" as="cat">
+  <div>[[cat.$key]]</div>
+  <div>[[cat.date]]</div>
+</template>
     
      <app-header role="navigation" id="header" effects="waterfall" condenses fixed>
       <app-toolbar>
@@ -277,9 +300,14 @@ font-weight: bold;
     </template>
  
     <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-      <prymtym-sign name="sign"></prymtym-sign>
+      <template is="dom-if" if="[[userStatusPersist.length == 0]]">
+        <prymtym-sign name="sign"></prymtym-sign>
+      </template>
+      
       <!-- home view -->
-      <prymtym-home id="home" name="home"></prymtym-home>
+      <template is="dom-if" if="[[userStatusPersist.length > 0]]">
+        <prymtym-home id="home" name="home"></prymtym-home>
+      </template>
       <prymtym-community id="community" name="community"></prymtym-community>
       <prymtym-settings id="settings" name="settings"></prymtym-settings>
       <prymtym-about id="about" name="about"></prymtym-about>
@@ -318,7 +346,10 @@ font-weight: bold;
         },
         _shouldRenderTabs: {
           computed: '_computeShouldRenderTabs(_shouldShowTabs, loadComplete)'
-        }       
+        },
+        _showLoginPage: {
+          computed: '_computeShouldRenderLoginPage()'
+        }
       },
       observers: [
         '_routePageChanged(routeData.page)'
@@ -380,11 +411,11 @@ font-weight: bold;
             //this.loadComplete = true;   // test         
             this.importHref(this.resolveUrl('lazy-resources.html'), function() {
               // Register service worker if supported.
-              
+              /*
               if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service-worker.js');
               }
-              
+              */
               
               this._notifyNetworkStatus();
               this.loadComplete = true;
@@ -435,7 +466,6 @@ font-weight: bold;
           this._a11yLabel = message;
         }, 100);
       },
-
       _computeShouldRenderDrawer: function(smallScreen, loadComplete) {
         return smallScreen && loadComplete;
       },
@@ -481,6 +511,9 @@ font-weight: bold;
           }
           
         }      
+      },
+      _persistedDataChanged: function () {
+        console.log(this.persistedData);
       }
       
     });
