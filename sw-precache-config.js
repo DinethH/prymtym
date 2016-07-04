@@ -13,5 +13,7 @@ module.exports = {
     '/src/prymtym-about.html',      
     '/src/prymtym-support.html'
   ],
-  navigateFallback: '/index.html'
+  navigateFallback: '/index.html',
+  excludePaths: ['https://prymtymeapp.firebaseapp.com/__/auth/handler?apiKey=AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40&appName=prymtym&authType=signInViaPopup&providerId=google.com&eventId=402790061&v=3.0.5']
+
 };
