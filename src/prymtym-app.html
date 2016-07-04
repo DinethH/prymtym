@@ -200,18 +200,13 @@ font-weight: bold;
     
     <app-indexeddb-mirror
         session="[[user.uid]]"
-        key="prymtym-dates"
-        data="{{userStatus}}"
-        persisted-data="{{userStatusPersist}}"
-        log >
+        key="prymtym-signed-in"
+        data="{{signedInObject}}"
+        persisted-data="{{signedInObjectPersist}}"
+        >
     </app-indexeddb-mirror>
     
 
-
-    <template is="dom-repeat" items="[[dates]]" as="cat">
-  <div>[[cat.$key]]</div>
-  <div>[[cat.date]]</div>
-</template>
     
      <app-header role="navigation" id="header" effects="waterfall" condenses fixed>
       <app-toolbar>
@@ -336,7 +331,14 @@ font-weight: bold;
           observer: '_userChanged'
         },  
         signedIn: {
-          type: Boolean
+          type: Boolean,
+          observer: '_signedInChanged'
+        },
+        signedInObject: Object,
+        signedInObjectPersist: {
+          type: Object,
+          value: "false",
+          observer: '_signedInObjectPersistChanged'
         },
         _shouldRenderDrawer: {
           computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
@@ -512,8 +514,11 @@ font-weight: bold;
           
         }      
       },
-      _persistedDataChanged: function () {
-        console.log(this.persistedData);
+      _signedInChanged: function () {
+        this.signedInObject = JSON.stringify(this.signedIn);
+      },
+      _signedInObjectPersistChanged: function () {
+        console.log(this.signedInObjectPersist);
       }
       
     });
