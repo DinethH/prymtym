@@ -192,19 +192,28 @@ font-weight: bold;
       >
     </firebase-auth>
     
-    <firebase-query
-        app-name="prymtym"
-        path="/users/[[user.uid]]"
-        data="{{userStatus}}">
-    </firebase-query>
-    
     <app-indexeddb-mirror
         session="[[user.uid]]"
         key="prymtym-signed-in"
         data="{{signedInObject}}"
         persisted-data="{{signedInObjectPersist}}"
         >
-    </app-indexeddb-mirror>
+    </app-indexeddb-mirror>    
+    
+    <firebase-query
+        app-name="prymtym"
+        path="/users/[[user.uid]]"
+        data="{{userStatus}}">
+    </firebase-query>
+    
+    <firebase-document
+      id="initializeUser"
+      app-name="prymtym"
+
+      >
+    </firebase-document>
+     
+
     
 
     
@@ -518,7 +527,21 @@ font-weight: bold;
         this.signedInObject = JSON.stringify(this.signedIn);
       },
       _signedInObjectPersistChanged: function () {
-        console.log(this.signedInObjectPersist);
+        if (this.signedInObjectPersist === "true") {
+          
+          // store signup info
+          var path = "/users/"+this.$.auth.user.uid+"/dates/signedUp/";
+          var ts = new Date();
+          var valueObject = new Object ();
+          valueObject.timestamp = ts.getTime();
+          valueObject.timezone = ts.getTimezoneOffset();
+          this.$.initializeUser.setStoredValue(path, valueObject);
+          
+          // store login info
+          path = "/users/"+this.$.auth.user.uid+"/dates/lastLoggedIn/";
+          this.$.initializeUser.setStoredValue(path, valueObject);
+          
+        }
       }
       
     });
