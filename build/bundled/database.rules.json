@@ -1,6 +1,33 @@
 {
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
+  "rules":
+	{
+    "users": {
+      ".read": false,
+      ".write": false,  
+					"$uid": {
+            ".read": "$uid === auth.uid",
+            
+              "dates": {
+                  "lastLoggedIn": {
+                    ".write": "$uid === auth.uid"                
+                 	},
+                  "signedUp": {
+                    ".write": "$uid === auth.uid && (!data.child('timestamp').exists() || !newData.child('timestamp').exists() )"                 
+                  }
+              },
+              "prymData": {
+                "$year": {
+                  "$month": {
+                    "$day": {
+                      "$hour": {
+                        ".read": "auth != null",
+                        ".write": "$uid === auth.uid && (!data.exists() || !newData.exists() )"
+                      }
+                    }
+                  }
+                }
+              }
+          }
+    }
+	}
 }

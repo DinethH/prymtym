@@ -17,10 +17,23 @@
 
 
 
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+
+
+
+
 
 <link rel="import" href="prymtym-sign.html">
 
 <link rel="import" href="prymtym-home.html">
+
+<link rel="import" href="prymtym-about.html" async="">
+<link rel="import" href="prymtym-checkin.html" async="">
+<link rel="import" href="prymtym-community.html" async="">
+<link rel="import" href="prymtym-settings.html" async="">
+<link rel="import" href="prymtym-support.html" async="">
 
 
 
@@ -37,18 +50,18 @@
     <firebase-auth app-name="prymtym" id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}">
     </firebase-auth>
     
+    <app-indexeddb-mirror session="[[user.uid]]" key="prymtym-signed-in" data="{{signedInObject}}" persisted-data="{{signedInObjectPersist}}">
+    </app-indexeddb-mirror>    
+    
     <firebase-query app-name="prymtym" path="/users/[[user.uid]]" data="{{userStatus}}">
     </firebase-query>
     
-    <app-indexeddb-mirror session="[[user.uid]]" key="prymtym-dates" data="{{userStatus}}" persisted-data="{{userStatusPersist}}" log="">
-    </app-indexeddb-mirror>
+    <firebase-document id="initializeUser" app-name="prymtym">
+    </firebase-document>
+     
+
     
 
-
-    <template is="dom-repeat" items="[[dates]]" as="cat">
-  <div>[[cat.$key]]</div>
-  <div>[[cat.date]]</div>
-</template>
     
      <app-header role="navigation" id="header" effects="waterfall" condenses="" fixed="">
       <app-toolbar>
@@ -151,6 +164,6 @@
     
   </template>
 
-  <script>Polymer({is:"prymtym-app",properties:{page:{type:String,reflectToAttribute:!0,observer:"_pageChanged"},user:{type:Object,notify:!0,observer:"_userChanged"},signedIn:{type:Boolean},_shouldRenderDrawer:{computed:"_computeShouldRenderDrawer(smallScreen, loadComplete)"},_shouldShowTabs:{computed:"_computeShouldShowTabs(page, smallScreen)"},_shouldRenderTabs:{computed:"_computeShouldRenderTabs(_shouldShowTabs, loadComplete)"},_showLoginPage:{computed:"_computeShouldRenderLoginPage()"}},observers:["_routePageChanged(routeData.page)"],listeners:{"change-section":"_onChangeSection","firebase-signin":"_signIn"},created:function(){this.removeAttribute("unresolved")},ready:function(){Polymer.RenderStatus.afterNextRender(this,function(){this.listen(window,"online","_notifyNetworkStatus"),this.listen(window,"offline","_notifyNetworkStatus")})},_routePageChanged:function(e){this.page=e||"home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_pageChanged:function(e,t){null!=e&&("home"==e?this._pageLoaded(Boolean(t)):"sign"==e||Polymer.isInstance(this.$.page)||this.importHref(this.resolveUrl("prymtym-"+e+".html"),function(){this._pageLoaded(Boolean(t))},null,!0))},_pageLoaded:function(e){this._ensureLazyLoaded(),e&&this.async(function(){this.$.header.resetLayout()},1)},_ensureLazyLoaded:function(){this.loadComplete||Polymer.RenderStatus.afterNextRender(this,function(){this.importHref(this.resolveUrl("lazy-resources.html"),function(){"serviceWorker"in navigator&&navigator.serviceWorker.register("/service-worker.js"),this._notifyNetworkStatus(),this.loadComplete=!0})})},_notifyNetworkStatus:function(){var e=this.offline;this.offline=!navigator.onLine,this.offline||!this.offline&&e===!0},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym",this._announce(t.title+", loaded"))},_onAnnounce:function(e){this._announce(e.detail)},_announce:function(e){this._a11yLabel="",this.debounce("_a11yAnnouncer",function(){this._a11yLabel=e},100)},_computeShouldRenderDrawer:function(e,t){return e&&t},_computeShouldShowTabs:function(e,t){return("home"===e||"sign"===e||"community"===e||"settings"===e||"about"===e||"support"===e||"checkin"===e)&&!t},_computeShouldRenderTabs:function(e,t){return e&&t},_computeShouldRenderDrawer:function(e,t){return e&&t},_signIn:function(){this.$.auth.signInWithPopup().then(function(e){})["catch"](function(e){})},_userChanged:function(){null===this.user?this.page="sign":this.user&&(this.signedIn=!0,""==this.routeData.page?this.page="home":this.page=this.routeData.page)},_persistedDataChanged:function(){console.log(this.persistedData)}});</script>
+  <script>Polymer({is:"prymtym-app",properties:{page:{type:String,reflectToAttribute:!0,observer:"_pageChanged"},user:{type:Object,notify:!0,observer:"_userChanged"},signedIn:{type:Boolean,observer:"_signedInChanged"},signedInObject:Object,signedInObjectPersist:{type:Object,value:"false",observer:"_signedInObjectPersistChanged"},_shouldRenderDrawer:{computed:"_computeShouldRenderDrawer(smallScreen, loadComplete)"},_shouldShowTabs:{computed:"_computeShouldShowTabs(page, smallScreen)"},_shouldRenderTabs:{computed:"_computeShouldRenderTabs(_shouldShowTabs, loadComplete)"},_showLoginPage:{computed:"_computeShouldRenderLoginPage()"}},observers:["_routePageChanged(routeData.page)"],listeners:{"change-section":"_onChangeSection","firebase-signin":"_signIn"},created:function(){this.removeAttribute("unresolved")},ready:function(){Polymer.RenderStatus.afterNextRender(this,function(){this.listen(window,"online","_notifyNetworkStatus"),this.listen(window,"offline","_notifyNetworkStatus")})},_routePageChanged:function(e){this.page=e||"home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_pageChanged:function(e,t){null!=e&&("home"==e?this._pageLoaded(Boolean(t)):"sign"!=e&&!Polymer.isInstance(this.$.page))},_pageLoaded:function(e){this._ensureLazyLoaded(),e&&this.async(function(){this.$.header.resetLayout()},1)},_ensureLazyLoaded:function(){this.loadComplete||Polymer.RenderStatus.afterNextRender(this,function(){"serviceWorker"in navigator&&navigator.serviceWorker.register("/service-worker.js"),this._notifyNetworkStatus(),this.loadComplete=!0})},_notifyNetworkStatus:function(){var e=this.offline;this.offline=!navigator.onLine,this.offline||!this.offline&&e===!0},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym",this._announce(t.title+", loaded"))},_onAnnounce:function(e){this._announce(e.detail)},_announce:function(e){this._a11yLabel="",this.debounce("_a11yAnnouncer",function(){this._a11yLabel=e},100)},_computeShouldRenderDrawer:function(e,t){return e&&t},_computeShouldShowTabs:function(e,t){return("home"===e||"sign"===e||"community"===e||"settings"===e||"about"===e||"support"===e||"checkin"===e)&&!t},_computeShouldRenderTabs:function(e,t){return e&&t},_computeShouldRenderDrawer:function(e,t){return e&&t},_signIn:function(){this.$.auth.signInWithPopup().then(function(e){})["catch"](function(e){})},_userChanged:function(){null===this.user?this.page="sign":this.user&&(this.signedIn=!0,""==this.routeData.page?this.page="home":this.page=this.routeData.page)},_signedInChanged:function(){this.signedInObject=JSON.stringify(this.signedIn)},_signedInObjectPersistChanged:function(){if("true"===this.signedInObjectPersist){var e="/users/"+this.$.auth.user.uid+"/dates/signedUp/",t=new Date,n=new Object;n.timestamp=t.getTime(),n.timezone=t.getTimezoneOffset(),this.$.initializeUser.setStoredValue(e,n),e="/users/"+this.$.auth.user.uid+"/dates/lastLoggedIn/",this.$.initializeUser.setStoredValue(e,n)}}});</script>
 </dom-module>
 </body></html>
