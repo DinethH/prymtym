@@ -116,6 +116,14 @@
       }       
     </style>
     
+    <firebase-document
+      id="checkinFB"
+      app-name="prymtym"
+      
+      >
+    </firebase-document>
+    
+    
       <div id="checkin" class="checkin">
 
         <div class="question-container">
@@ -153,7 +161,7 @@
          </div>
          <div class="nav-right-button">
             <a>
-              <paper-button>Next</paper-button>
+              <paper-button on-tap="saveData">Save</paper-button>
             </a>             
          </div>
        </div>
@@ -267,24 +275,27 @@
         
         
       },
-      submitAnswer: function () {
-        var d = new Date();
-        var year = d.getFullYear();
-        var month = d.getMonth() + 1;
-        var date = d.getDate();
-        var hour = d.getHours();
-        var path = "users/"+this.user.uid+"/energyLevels/" + year + "/" + month
-          + "/" + date + "/" + hour + "/";
-        var data = this.answer;
-        this.$.checkinDoc.setStoredValue(path, data);
-        this.selectedWrapper = 0;
-        this.checkedIn = Math.random();
-      },
       _userChanged: function () {
         if (this.user) {
           this.firstName = this.user.displayName.split(" ")[0];
-          console.log(this.firstName);
         }
+      },
+      saveData: function () {
+          // store checkin data
+          var ts = new Date();
+          var year = ts.getFullYear();
+          var month = ts.getMonth();
+          var day = ts.getDate();
+          var hour = ts.getHours();
+          var timezone = ts.getTimezoneOffset();
+          var timestamp = ts.getTime();
+          var path = "/users/"+this.user.uid+"/prymData/" + year + "/" + month + "/" + day + "/" + hour;
+          
+          var valueObject = new Object ();
+          valueObject.timestamp = timestamp;
+          valueObject.timezone = timezone;
+          valueObject.prymLevel = this.answer;
+          this.$.checkinFB.setStoredValue(path, valueObject);
       }
     });
   </script>
