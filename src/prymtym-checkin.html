@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 
 <dom-module id="prymtym-checkin">
 
@@ -25,13 +26,23 @@
         width: 100%;
         height: 100vh;
         top: 0;
-        background: #F57F17;
+        //background: var(--app-accent-color);
+        background: #366EAB;
         transition: background 0.2s ease-in;
    
       }
+            .checkin-header {
+        height: 64px;
+        width: 100%;
+        //background-color:  var(--app-accent-color);
+      }
+            .arrow-back {
+        color: white;
+            margin: 16px;
+      }
       .question-container {
         color: white;
-        min-height: 175px;
+        height: 175px;
         padding: 16px;
         display: flex;
         padding-left: 24px;
@@ -40,6 +51,13 @@
       .question-container h1 {
         margin: 0;
         font-weight: 400;
+        animation-fill-mode: forwards;
+
+        position: absolute;
+
+      }
+      .h1-answered {
+        animation: answerSelected 0.3s ease-in-out;   
       }
       .answers-container {
         display: flex;
@@ -71,7 +89,7 @@
         bottom: 16px;
         right: 16px;
         background: orange;
-        display: none;
+        //display: none;
       }
       .nav-buttons {
         bottom: 0;
@@ -111,7 +129,52 @@
     top: 0;
     overflow: hidden;
           }
-      }       
+      }  
+      
+      .cover {
+        background: url(../images/scenes/001.jpg);
+        background-size: cover;
+      }
+      .overlay {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#366eab+0,366eab+100&0+20,1+82 */
+background: -moz-linear-gradient(top,  rgba(54,110,171,0) 0%, rgba(54,110,171,0) 20%, rgba(54,110,171,1) 82%, rgba(54,110,171,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(54,110,171,0) 0%,rgba(54,110,171,0) 20%,rgba(54,110,171,1) 82%,rgba(54,110,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(54,110,171,0) 0%,rgba(54,110,171,0) 20%,rgba(54,110,171,1) 82%,rgba(54,110,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', endColorstr='#366eab',GradientType=0 ); /* IE6-9 */
+
+
+        height: 271px;
+        margin-top: -271px;
+      }
+      
+      @keyframes answerSelected {
+        from {
+          margin-top: 0;
+        }
+        to {
+          //margin-top: -100px;
+          font-size: 20px; 
+        }
+      }  
+      h2 {
+        font-size: 30px;
+        font-weight: 400;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out 0.4s;
+        
+      }
+      .answeredH2 {
+        opacity: 1;
+      }
+      @keyframes showGreetingAnimation {
+        from {
+          opacity: 0;
+          display: block;
+        }
+        to {
+          opacity: 1;
+        }
+      }        
     </style>
     
     <firebase-document
@@ -122,11 +185,28 @@
     </firebase-document>
     
     
+    
+    
       <div id="checkin" class="checkin">
-
-        <div class="question-container">
-          <h1>How are you feeling {{firstName}}?</h1>
+        
+        <div class="cover">
+        
+          <div class="checkin-header">
+            <a name="home" href="/home">
+              <paper-icon-button class="arrow-back" icon="close"></paper-icon-button>
+            </a>
+          </div>
+  
+          <div class="question-container">
+            <h1 class$="{{getClasses(answered)}}">How are you feeling {{firstName}}?</h1>
+            <h2 class$="{{getClassesH2(answered)}}">
+              That's wonderful!
+            </h2>
+          </div>
+          
         </div>
+        
+        <div class="overlay"></div>
         
         
         
@@ -151,6 +231,7 @@
           </iron-selector>
         </div>
        
+       <!--
        <div class="nav-buttons">
          <div class="nav-left-button">
             <a name="home" href="/home">
@@ -163,6 +244,10 @@
             </a>             
          </div>
        </div>
+       -->
+       
+       <paper-fab id="submitAnswer" on-click="saveData" class="submit-answer" icon="icons:check"></paper-fab>
+
     
 
         
@@ -192,6 +277,10 @@
         }, 
         answer: {
           observer: '_answerChanged'
+        },
+        answered: {
+          type: Boolean,
+          value: false
         },
         animationConfig: {
           value: function() {
@@ -269,6 +358,10 @@
             // code
             
         }
+        if (this.answer >= 0) {
+          this.answered = true;
+        }
+        
         window.navigator.vibrate(10);
         
         
@@ -282,7 +375,7 @@
           // store checkin data
           var ts = new Date();
           var year = ts.getFullYear();
-          var month = ts.getMonth();
+          var month = ts.getMonth() + 1;
           var day = ts.getDate();
           var hour = ts.getHours();
           var timezone = ts.getTimezoneOffset();
@@ -294,6 +387,23 @@
           valueObject.timezone = timezone;
           valueObject.prymLevel = this.answer;
           this.$.checkinFB.setStoredValue(path, valueObject);
+          window.location.href = "/home";
+      },
+      getClasses: function (answered) {
+        var classes = '';
+        if (answered) {
+          classes = 'h1-answered';
+        }
+        
+        return classes;
+      },
+      getClassesH2: function (answered) {
+        var classes = '';
+        if (answered) {
+          classes = 'answeredH2';
+        }
+        
+        return classes;
       }
     });
   </script>
