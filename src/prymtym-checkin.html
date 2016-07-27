@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="prymtym-checkin">
 
@@ -174,7 +175,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
         to {
           opacity: 1;
         }
-      }        
+      }   
+      
+      .block-checkin {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: #366EAB;
+        color: white;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;   
+        display: none;
+      }
     </style>
     
     <firebase-document
@@ -183,8 +199,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
       
       >
     </firebase-document>
+  
+      <firebase-document
+        id="getStatus"
+        app-name="prymtym"
+        path="/users/[[user.uid]]/prymData/2016/7/21/2"
+        data="{{checkedInStatus}}">
+    </firebase-document>  
     
-    
+   
+    <div id="blockCheckin" class="block-checkin">
+            <p style="text-align: center;
+    padding: 30px;">You've already checked in for the hour. Please check again in an hour.</p>
+            
+                        <a name="home" href="/home">
+                      <paper-button>OK</paper-button>
+                      </a>
+          </div>  
+
     
     
       <div id="checkin" class="checkin">
@@ -196,6 +228,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
               <paper-icon-button class="arrow-back" icon="close"></paper-icon-button>
             </a>
           </div>
+          
+        
   
           <div class="question-container">
             <h1 class$="{{getClasses(answered)}}">How are you feeling {{firstName}}?</h1>
@@ -252,7 +286,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
 
         
       </div>    
-    
+      
+
   </template>
 
   <script>
@@ -281,6 +316,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
         answered: {
           type: Boolean,
           value: false
+        },
+        checkedInStatus: {
+          observer: '_checkedInStatusChanged'
+        },
+        showBlockCheckin: {
+          type: Boolean,
+          value: false          
         },
         animationConfig: {
           value: function() {
@@ -387,7 +429,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
           valueObject.timezone = timezone;
           valueObject.prymLevel = this.answer;
           this.$.checkinFB.setStoredValue(path, valueObject);
-          window.location.href = "/home";
+          //window.location.href = "/home";
+          
+          this.answer = null;
+          this.$.img0.style.webkitFilter = "grayscale(100%)";
+          this.$.img0.style.filter = "grayscale(100%)"; 
+          this.$.img1.style.webkitFilter = "grayscale(100%)";
+          this.$.img1.style.filter = "grayscale(100%)";   
+          this.$.img2.style.webkitFilter = "grayscale(100%)";
+          this.$.img2.style.filter = "grayscale(100%)";    
+          this.$.img3.style.webkitFilter = "grayscale(100%)";
+          this.$.img3.style.filter = "grayscale(100%)";    
+          
+          this.answered = false;
       },
       getClasses: function (answered) {
         var classes = '';
@@ -404,6 +458,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
         }
         
         return classes;
+      },
+      _checkedInStatusChanged: function () {
+        if (typeof this.checkedInStatus.timestamp === "number") {
+          this.$.blockCheckin.style.display = "block";
+        } else {
+          this.$.blockCheckin.style.display = "none";
+        }
+        console.log(typeof this.checkedInStatus.timestamp);
+        console.log(this.showBlockCheckin);
       }
     });
   </script>
