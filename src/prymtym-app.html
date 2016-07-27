@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+
 <link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
 
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
@@ -33,13 +35,7 @@ test end -->
 
 <link rel="import" href="prymtym-sign.html">
 
-<link rel="import" href="prymtym-home.html">
 
-<link rel="import" href="prymtym-about.html" async>
-<link rel="import" href="prymtym-checkin.html" async>
-<link rel="import" href="prymtym-community.html" async>
-<link rel="import" href="prymtym-settings.html" async>
-<link rel="import" href="prymtym-support.html" async>
 
 
 
@@ -193,7 +189,9 @@ font-weight: bold;
         tail="{{subroute}}"></app-route>
 
     
-    <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>   
+    <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query> 
+    
+    <app-localstorage-document id="tokenDoc" log key="firebase:authUser:AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40:prymtym" data="{{token}}" transactionsComplete="{{_tokenLoaded}}"></app-localstorage-document>
     
     <firebase-auth 
       app-name="prymtym"
@@ -345,6 +343,10 @@ font-weight: bold;
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
+        token: {
+          observer: '_tokenChanged'
+          
+        },
         user: {
           type: Object,
           notify: true,
@@ -389,10 +391,18 @@ font-weight: bold;
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
         });
-      },      
+        
+ 
+      },
+      _tokenChanged: function () {
+        if (this.token) {
+          this.page = 'home';
+        }
+      },
+      
     _routePageChanged: function(page) {
         
-        this.page = page || 'home';
+        this.page = page;
         // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
         // with `behavior: 'silent'` to disable header scroll effects during the scroll.
         Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
@@ -406,13 +416,13 @@ font-weight: bold;
             this._pageLoaded(Boolean(oldPage));
           // other routes are lazy loaded
           } else if (page != 'sign'&& !Polymer.isInstance(this.$.page) ) {
-            /*
+            
             this.importHref(
               this.resolveUrl('prymtym-' + page + '.html'),
               function() {
                 this._pageLoaded(Boolean(oldPage));
               }, null, true);
-              */
+              
           }
         }
       },
@@ -522,6 +532,7 @@ font-weight: bold;
           });
       },
       _userChanged: function () {
+        console.log("USER CHANGED: " + this.user);
         if (this.user === null) {
           this.page = 'sign';
         } 
@@ -537,6 +548,7 @@ font-weight: bold;
         }      
       },
       _signedInChanged: function () {
+        console.log("Signed IN: " + this.signedIn);
         this.signedInObject = JSON.stringify(this.signedIn);
       },
       _signedInObjectPersistChanged: function () {
@@ -555,6 +567,12 @@ font-weight: bold;
           this.$.initializeUser.setStoredValue(path, valueObject);
           
         }
+      },
+      _zeroValue: function () {
+        return false;
+      },
+      _tokenLoaded: function () {
+        console.log("Transaction loaded: ");
       }
       
     });
