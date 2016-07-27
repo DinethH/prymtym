@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+
+<dom-module id="prymtym-about">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        color: white;
+        background: red;
+      }
+    </style>
+
+    About
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'prymtym-about',
+      properties: {
+        visible: {
+          type: Boolean,
+          observer: '_visibleChanged'
+        },
+        data: {
+          type: Number,
+          observer: 'dataChanged'
+        },
+        animationConfig: {
+          value: function() {
+            return {
+              'entry': {
+                name: 'fade-in-animation',
+                node: this
+              },
+              'exit': {
+                name: 'fade-out-animation',
+                node: this
+              }
+            }
+          }
+        }
+      },
+      behaviors: [
+        Polymer.NeonAnimatableBehavior
+      ],      
+      _visibleChanged: function(visible) {
+        if (visible) {
+          this.fire('change-section', { title: 'About' });
+        }
+      },
+      dataChanged: function (newData, oldData) {
+        //console.log(this.data);
+      }      
+    });
+  </script>
+
+</dom-module>

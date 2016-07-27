@@ -1,0 +1,193 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/google-chart/google-chart.html" async>
+<link rel="import" href="../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="prymtym-icons.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html" async>
+<link rel="import" href="prymtym-checkins.html" async>
+<link rel="import" href="prymtym-checkins-wrapper.html" async>
+
+
+<dom-module id="prymtym-home">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+      .header {
+        background-color: var(--app-accent-color);
+        height: 175px;
+      }
+      .header-blocks {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 175px;
+      }
+      .block {
+        flex: 1;
+        text-align: center;
+        padding-bottom: 20px;
+        color: white;
+      }
+      .block-value, .block-item {
+        text-transform: uppercase;
+      }
+      .block-item {
+        opacity: 0.7;
+        font-size: 0.9em;
+      }
+      
+
+
+      /** google chart **/
+      google-chart {
+        height: 300px;
+        width: 100%;
+      }
+      
+      .progress, .checkins {
+        margin: 8px;
+        box-shadow: 1px 1px 10px #ccc;
+      }
+      .label {
+        background: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 20px;
+        padding-top: 20px;
+      } 
+
+      
+      paper-fab {
+        --paper-fab-background: orange;
+        --paper-fab-keyboard-focus-background	: orange;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 16px;
+      } 
+      
+       .checkins-wrapper {
+
+        padding-bottom: 20px;
+  
+      }
+        ::-webkit-scrollbar { 
+        display: none; 
+    }   
+    
+
+           
+    </style>
+
+    <div class="header">
+      <div class="header-blocks">
+        <div class="block">
+          <div class="block-value">awesome</div>
+          <div class="block-item">now</div>
+        </div>
+        <div class="block">
+          <div class="block-value">8 am</div>
+          <div class="block-item">prym hour</div>
+        </div>
+        <div class="block">
+          <div class="block-value">75%</div>
+          <div class="block-item">percentile</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="checkins">
+      <h3 class="label">Checkins</h3>
+           <div id="scrollable-element" style="overflow: auto; margin-left: 20px; margin-right: 20px;">
+            <prymtym-checkins-wrapper id="checkinsWrapper" scroll-target="scrollable-element" class="checkins-wrapper"></prymtym-checkins-wrapper>
+          </div>
+    </div>
+    
+  
+
+    <div class="progress">
+      <h3 class="label">Hourly Averages</h3>
+      <google-chart id="chartAvg"
+        type='line'
+        options='{"colors":["#BF360C"], "legend": "none", "curveType": "function"}'
+        cols='[{"label":"Hour", "type":"string"}, {"label":"Energy Levels", "type":"number"}]'
+        rows='[["8", 2],["9", 0.5],["10", 3.5],["11", 2.5],["12", 2.2],["13", 3.6],["14", 0.3],["15", 3.9],["16", 3.4],["17", 0.6]]'>
+      </google-chart>
+    </div>
+
+
+    <a name="checkin" href="/checkin">
+    <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>   
+    </a>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'prymtym-home',
+      properties: {
+        page: {
+          type: String,
+          notify: true
+        },
+        visible: {
+          type: Boolean,
+          observer: '_visibleChanged'
+        },
+        data: {
+          type: Number,
+          observer: 'dataChanged'
+        },
+        animationConfig: {
+          value: function() {
+            return {
+              'entry': {
+                name: 'fade-in-animation',
+                node: this
+              },
+              'exit': {
+                name: 'fade-out-animation',
+                node: this
+              }
+            }
+          }
+        }
+      },
+
+      behaviors: [
+        Polymer.IronResizableBehavior, 
+        Polymer.NeonAnimatableBehavior, 
+
+      ],  
+      listeners: {
+        'iron-resize': '_onIronResize'
+      },
+      _onIronResize: function () {
+        this.$.chartAvg.drawChart();
+      },      
+      _visibleChanged: function(visible) {
+        if (visible) {
+          this.fire('change-section', { title: 'Home' });
+        }
+      },
+      dataChanged: function (newData, oldData) {
+        //console.log(this.data);
+      },
+    
+        
+        checkin: function () {
+  
+        }
+    });
+  </script>
+
+</dom-module>

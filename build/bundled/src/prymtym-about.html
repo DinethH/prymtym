@@ -1,0 +1,13 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="prymtym-app.html"></head><body><dom-module id="prymtym-about">
+
+  <template>
+
+    <style>:host{display:block;color:white;background:red;}</style>
+
+    About
+
+  </template>
+
+  <script>Polymer({is:"prymtym-about",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.NeonAnimatableBehavior],_visibleChanged:function(e){e&&this.fire("change-section",{title:"About"})},dataChanged:function(e,i){}});</script>
+
+</dom-module></body></html>

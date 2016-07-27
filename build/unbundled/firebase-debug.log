@@ -1,0 +1,20 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /home/ubuntu/.nvm/versions/node/v4.4.5/bin/node /home/ubuntu/.nvm/versions/node/v4.4.5/bin/firebase deploy
+[debug] CLI Version:  3.0.3
+[debug] Platform:     linux
+[debug] Node Version: v4.4.5
+[debug] Time:         Mon Jun 27 2016 23:01:52 GMT+0000 (UTC)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/prymtymeapp 
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/prymtymeapp/tokens 
+[debug] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'prymtymeapp'...
+[info] 
+[info] i  deploying database, hosting
+[info] ✔  database: rules ready to deploy.
+[info] i  hosting: preparing build/bundled directory for upload...
+[debug] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/prymtymeapp/uploads/-KLJ5ElC5hsbpq0fAF0U?fileCount=2215&message= 

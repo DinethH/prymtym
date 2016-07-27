@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html">
+
+<dom-module id="prymtym-checkins-wrapper">
+  <template>
+    <style>
+      :host {
+          display: flex;
+
+           
+      }
+
+
+    </style>
+ 
+          <prymtym-checkins checked hour="8am"></prymtym-checkins>
+          <prymtym-checkins checked hour="9am"></prymtym-checkins>
+          <prymtym-checkins hour="10am"></prymtym-checkins>
+          <prymtym-checkins checked hour="11am"></prymtym-checkins>
+          <prymtym-checkins hour="12pm" current></prymtym-checkins>
+          <prymtym-checkins hour="1pm"></prymtym-checkins>
+          <prymtym-checkins hour="2pm"></prymtym-checkins>
+          <prymtym-checkins hour="3pm"></prymtym-checkins>
+          <prymtym-checkins hour="4pm"></prymtym-checkins>
+          <prymtym-checkins hour="5pm"></prymtym-checkins>
+          <prymtym-checkins hour="6pm"></prymtym-checkins>
+          <prymtym-checkins hour="7pm"></prymtym-checkins>
+          <prymtym-checkins hour="8pm"></prymtym-checkins>
+          <prymtym-checkins hour="9pm"></prymtym-checkins>
+          <prymtym-checkins hour="10pm"></prymtym-checkins>
+          <prymtym-checkins hour="11pm"></prymtym-checkins>
+
+
+        
+  </template>
+  <script>
+    Polymer({
+      is: 'prymtym-checkins-wrapper',
+      properties: {
+        xScrollTop: {
+          type: Number,
+          readOnly: true,
+          value: 0
+        },
+        xScrollLeft: {
+          type: Number,
+          readOnly: true,
+          value: 0
+        }
+      },
+      behaviors: [
+        Polymer.IronScrollTargetBehavior
+      ],
+      attached: function() {
+        this._scrollHandler();
+      },
+      _scrollHandler: function() {
+        this._setXScrollTop(this._scrollTop);
+        this._setXScrollLeft(this._scrollLeft);
+      }
+    });
+  </script>
+</dom-module>
