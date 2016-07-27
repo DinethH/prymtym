@@ -35,7 +35,13 @@ test end -->
 
 <link rel="import" href="prymtym-sign.html">
 
-
+<link rel="import" href="prymtym-home.html">
+  
+<link rel="import" href="prymtym-about.html" async>
+<link rel="import" href="prymtym-checkin.html" async>
+<link rel="import" href="prymtym-community.html" async>
+<link rel="import" href="prymtym-settings.html" async>
+<link rel="import" href="prymtym-support.html" async>
 
 
 
@@ -416,13 +422,13 @@ font-weight: bold;
             this._pageLoaded(Boolean(oldPage));
           // other routes are lazy loaded
           } else if (page != 'sign'&& !Polymer.isInstance(this.$.page) ) {
-            
+            /*
             this.importHref(
               this.resolveUrl('prymtym-' + page + '.html'),
               function() {
                 this._pageLoaded(Boolean(oldPage));
               }, null, true);
-              
+              */
           }
         }
       },
