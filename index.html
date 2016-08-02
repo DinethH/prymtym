@@ -8,8 +8,7 @@
     <link rel="shortcut icon" sizes="32x32" href="/images/app-icon-32.png">
     <meta name="theme-color" content="#BF360C">
     <link rel="manifest" href="/manifest.json">
-    <link rel="import" href="/src/prymtym-app.html" async>
-    
+    <link rel="import" href="/src/app-wrapper.html" async>
 
     <style>
       body {
@@ -20,7 +19,7 @@
         min-height: 100vh;
       }
       /* styling for render while resources are loading */
-      prymtym-app[unresolved] {
+    app-wrapper[unresolved] {
         display: block;
         height: 100vh;
         //background: #000;
@@ -29,20 +28,20 @@
         background-size: 200px;
         background-position: center;
       }
-    </style>   
-    
+    </style>
+
   </head>
   <body>
-    
+
     <firebase-app
         name="prymtym"
         api-key="AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40"
         auth-domain="prymtymeapp.firebaseapp.com"
         database-url="https://prymtymeapp.firebaseio.com">
-    </firebase-app>    
-    
-    <prymtym-app unresolved></prymtym-app>
-    
+    </firebase-app>
+
+  <app-wrapper unresolved></app-wrapper>
+
     <script>
       Polymer = {lazyRegister: true, dom: 'shadow'};
       (function() {
@@ -57,7 +56,6 @@
           document.body.appendChild(e);
         }
       })();
-    
     </script>
   </body>
 </html>

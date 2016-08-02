@@ -1,0 +1,134 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="prymtym-style">
+  <template>
+    <style>
+
+          app-header {
+            @apply(--layout-fixed-top);
+            z-index: 1;
+            background-color: var(--app-accent-color);
+          }
+          paper-icon-button {
+            color: #ffffff;
+          }
+          .left-bar-item {
+            width: 40px;
+          }
+          .menu-btn {
+            display: none;
+          }
+          :host(:not([page=detail])) .back-btn {
+            display: none;
+          }
+          [hidden] {
+            display: none !important;
+          }
+          .drawer-list {
+            margin: 0 20px;
+          }
+          .drawer-list a {
+            display: block;
+            padding: 8px 16px;
+            line-height: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+          }
+          .drawer-list a.iron-selected {
+            color: var(--app-accent-color);
+            background: #ececec;
+          }
+          hr {
+            border: 1px solid #ececec;
+          }
+          app-drawer {
+            z-index: 3;
+          }
+          neon-animated-pages {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: calc(100vh - 64px);
+          }
+          /* small screen */
+          @media (max-width: 767px) {
+            :host {
+              padding-top: 64px;
+            }
+            .menu-btn {
+              display: block;
+            }
+            :host([page=detail]) .menu-btn {
+              display: none;
+            }
+          }
+         .menu-icon {
+            padding-right: 8px;
+            margin-top: -3px;
+          }
+           .header {
+            background-color: #BF360C;
+            height: 130px;
+            display: flex;
+            align-items: flex-end;
+          }
+          .header-inner {
+            margin-left: 16px;
+            margin-bottom: 8px;
+          }
+
+          .profile-pic img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            //background: #fff;
+          }
+          .username {
+            margin-top: 8px;
+            color: #fff;
+          }
+          .tabs a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            padding: 20px;
+
+          }
+          .tabs {
+          }
+          .tabs-wrapper {
+            text-align: right;
+            width: 1200px;
+            margin: 0 auto;
+                padding: 24px;
+          }
+          #tabContainer {
+            left: 0;
+            width: 100vw;
+
+            margin-bottom: 20px;
+            position: fixed;
+            top: 0;
+            height: 64px;
+          }
+          .tabs a.iron-selected {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,bc2c00+100 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,a00a00+100 */
+    background: #bf360c; /* Old browsers */
+    background: -moz-linear-gradient(top,  #bf360c 0%, #bf360c 44%, #a00a00 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf360c', endColorstr='#a00a00',GradientType=0 ); /* IE6-9 */
+    font-weight: bold;
+          }
+
+    </style>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'prymtym-style'
+    });
+  </script>
+</dom-module>

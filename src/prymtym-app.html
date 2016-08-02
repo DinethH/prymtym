@@ -1,0 +1,45 @@
+
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="./prymtym-style.html">
+<dom-module id="prymtym-app">
+  <template>
+
+    <style include="prymtym-style"></style>
+    <style>
+      :host {
+         display: block;
+         position: relative;
+         --app-primary-color: #202020;
+         --app-secondary-color: #333;
+         --app-accent-color: #BF360C;
+         --paper-button-ink-color: var(--app-accent-color);
+         --paper-icon-button-ink-color: var(--app-accent-color);
+         --paper-spinner-color: var(--app-accent-color);
+         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+         color: var(--app-primary-color);
+         padding-top: 130px;
+       }
+    </style>
+
+  THIS IS THE APP
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'prymtym-app',
+      properties: {
+        token: {
+          observer: '_tokenChanged'
+        }
+      },
+
+      created: function() {
+        this.removeAttribute('unresolved');
+      },
+      _tokenChanged: function () {
+        console.log(this.token);
+      }
+    });
+  </script>
+</dom-module>

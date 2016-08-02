@@ -1,0 +1,83 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
+<dom-module id="app-wrapper">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+    <app-localstorage-document id="tokenDoc" key="firebase:authUser:AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40:prymtym" data="{{token}}"  zeroValue="-1"></app-localstorage-document>
+    <firebase-auth
+      app-name="prymtym"
+      id="auth"
+      user="{{user}}"
+      provider="google"
+      on-error="handleError"
+      signed-in="{{signedIn}}"
+      >
+    </firebase-auth>
+    <prymtym-sign></prymtym-sign>
+    <prymtym-app></prymtym-app>
+  </template>
+  <script>
+    Polymer({
+      is: 'app-wrapper',
+      properties: {
+        token: {
+          observer: '_tokenChanged'
+        }
+      },
+      listeners: {
+        'change-section': '_onChangeSection',
+        'firebase-signin': '_signIn'
+      },
+      created: function () {
+        this.removeAttribute('unresolved');
+      },
+      ready: function () {
+        Polymer.RenderStatus.afterNextRender(this.$.tokenDoc, function() {
+          this._initializeToken();
+        }.bind(this));
+      },
+      _initializeToken: function () {
+        console.log("Init " + this.token);
+        // if token is undefined import sign in page
+        if (this.token === undefined) {
+          this.importHref(this.resolveUrl('prymtym-sign.html'),
+            null, null, true);
+            console.log('Sign in page loaded');
+        } else {
+          // load app
+          this.importHref(this.resolveUrl('prymtym-app.html'),
+            null, null, true);
+            console.log('App is loaded');
+        }
+      },
+      _tokenChanged: function () {
+        console.log("Subsequent " + this.token);
+      },
+      _signIn: function () {
+        this.$.auth.signInWithPopup()
+          .then(function(response) {
+            //console.log(response.credential.accessToken);
+            //this.facebookAccessToken = response.credential.accessToken;
+
+          })
+          .catch(function(error) {
+
+          });
+      },
+    });
+  </script>
+</dom-module>
