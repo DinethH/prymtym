@@ -1,6 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 
@@ -12,11 +11,7 @@
       }
     </style>
     <app-location route="{{route}}"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+
     <app-localstorage-document id="tokenDoc" key="firebase:authUser:AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40:prymtym" data="{{token}}"  zeroValue="-1"></app-localstorage-document>
     <firebase-auth
       app-name="prymtym"
@@ -27,8 +22,8 @@
       signed-in="{{signedIn}}"
       >
     </firebase-auth>
-    <prymtym-sign></prymtym-sign>
-    <prymtym-app></prymtym-app>
+    <prymtym-sign id="signinPage"></prymtym-sign>
+    <prymtym-app route="{{route}}"></prymtym-app>
   </template>
   <script>
     Polymer({
@@ -57,6 +52,8 @@
           this.importHref(this.resolveUrl('prymtym-sign.html'),
             null, null, true);
             console.log('Sign in page loaded');
+            // destroy undefined key
+            this.$.tokenDoc.destroy();
         } else {
           // load app
           this.importHref(this.resolveUrl('prymtym-app.html'),
@@ -72,8 +69,17 @@
           .then(function(response) {
             //console.log(response.credential.accessToken);
             //this.facebookAccessToken = response.credential.accessToken;
+            console.log("Signed in: " + this);
+            // remove sign in page
+            this.$.signinPage.style.display = "none";
+            // load app
+            //this.querySelector('prymtym-sign').style.display = "none";
+            this.importHref(this.resolveUrl('prymtym-app.html'),
+              null, null, true);
+              console.log('App is loaded');
 
-          })
+
+          }.bind(this))
           .catch(function(error) {
 
           });

@@ -1,4 +1,5 @@
-
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="./prymtym-style.html">
 <dom-module id="prymtym-app">
@@ -20,6 +21,11 @@
          padding-top: 130px;
        }
     </style>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
 
   THIS IS THE APP
 
@@ -31,14 +37,17 @@
       properties: {
         token: {
           observer: '_tokenChanged'
+        },
+        route: {
+          observer: '_routeChanged'
         }
       },
 
       created: function() {
         this.removeAttribute('unresolved');
       },
-      _tokenChanged: function () {
-        console.log(this.token);
+      _routeChanged: function () {
+        console.log(this.route);
       }
     });
   </script>
