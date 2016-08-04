@@ -1,6 +1,24 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/helpers/helpers.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="prymtym-home.html">
+<link rel="import" href="prymtym-about.html" async>
+<link rel="import" href="prymtym-checkin.html" async>
+<link rel="import" href="prymtym-community.html" async>
+<link rel="import" href="prymtym-settings.html" async>
+<link rel="import" href="prymtym-support.html" async>
+
 <link rel="import" href="./prymtym-style.html">
 <dom-module id="prymtym-app">
   <template>
@@ -27,8 +45,8 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-  THIS IS THE APP
 
+<prymtym-home></prymtym-home>
 
   </template>
   <script>

@@ -1,8 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+
 
 
 <dom-module id="prymtym-sign">
@@ -13,10 +11,8 @@
       :host {
         display: block;
         color: black;
-        position: relative;
         width: 100%;
-        margin-top: -64px;
-        z-index: 10;
+
         background-color: white;
       }
       .signinPage {
@@ -27,7 +23,7 @@
         width: 100%;
         //background-color: #BF360C;
       }
-      
+
       .logo {
         width: 200px;
       }
@@ -38,15 +34,12 @@
       }
 
     </style>
-    
-    
-    
 
     <div class="signinPage">
-        
+
         <div>
           <div><img class="logo" src="../images/app-icon.svg"></div>
-      
+
           <div><paper-button on-click="_signIn">Sign in with Google</paper-button></div>
         </div>
     </div>
@@ -61,25 +54,11 @@
         visible: {
           type: Boolean,
           observer: '_visibleChanged'
-        },          
-        animationConfig: {
-          value: function() {
-            return {
-              'entry': {
-                name: 'fade-in-animation',
-                node: this
-              },
-              'exit': {
-                name: 'fade-out-animation',
-                node: this
-              }
-            }
-          }
         }
       },
-      behaviors: [
-        Polymer.NeonAnimatableBehavior
-      ],
+      created: function () {
+        this.removeAttribute('unresolved');
+      },
       _visibleChanged: function(visible) {
         if (visible) {
           this.fire('change-section', { title: 'Sign-in' });

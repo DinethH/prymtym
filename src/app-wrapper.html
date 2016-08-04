@@ -9,6 +9,21 @@
       :host {
         display: block;
       }
+      prymtym-app[unresolved] {
+        display: block;
+        height: 56px;
+        width: 100vw;
+        background: #BF360C;
+      }
+      prymtym-sign[unresolved] {
+        display: block;
+        height: 100vh;
+        //background: #000;
+        background-image: url('../images/app-icon.svg');
+        background-repeat: no-repeat;
+        background-size: 200px;
+        background-position: center;
+      }
     </style>
     <app-location route="{{route}}"></app-location>
 
@@ -22,8 +37,10 @@
       signed-in="{{signedIn}}"
       >
     </firebase-auth>
-    <prymtym-sign id="signinPage"></prymtym-sign>
-    <prymtym-app route="{{route}}"></prymtym-app>
+    <section id="pages">
+
+    </section>
+
   </template>
   <script>
     Polymer({
@@ -47,11 +64,14 @@
       },
       _initializeToken: function () {
         console.log("Init " + this.token);
+        let page = document.createElement('div');
         // if token is undefined import sign in page
         if (this.token === undefined) {
           this.importHref(this.resolveUrl('prymtym-sign.html'),
             null, null, true);
             console.log('Sign in page loaded');
+            page.innerHTML = `<prymtym-sign unresolved id="signinPage"></prymtym-sign>`;
+
             // destroy undefined key
             this.$.tokenDoc.destroy();
         } else {
@@ -59,7 +79,10 @@
           this.importHref(this.resolveUrl('prymtym-app.html'),
             null, null, true);
             console.log('App is loaded');
+            page.innerHTML = `<prymtym-app unresolved route="{{route}}"></prymtym-app>`;
         }
+
+        this.$.pages.appendChild(page);
       },
       _tokenChanged: function () {
         console.log("Subsequent " + this.token);
@@ -70,13 +93,22 @@
             //console.log(response.credential.accessToken);
             //this.facebookAccessToken = response.credential.accessToken;
             console.log("Signed in: " + this);
-            // remove sign in page
-            this.$.signinPage.style.display = "none";
+
             // load app
             //this.querySelector('prymtym-sign').style.display = "none";
             this.importHref(this.resolveUrl('prymtym-app.html'),
               null, null, true);
               console.log('App is loaded');
+
+              let page = document.createElement('div');
+              page.innerHTML = `<prymtym-app unresolved route="{{route}}"></prymtym-app>`;
+
+              // remove sign in page
+              const rNode = this.$.pages.children[0];
+              this.$.pages.removeChild(rNode);
+
+
+              this.$.pages.appendChild(page);
 
 
           }.bind(this))
