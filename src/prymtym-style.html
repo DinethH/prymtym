@@ -9,9 +9,7 @@
             z-index: 1;
             background-color: var(--app-accent-color);
           }
-          app-header, app-toolbar {
-            height: 56px !important;
-          }
+
           paper-icon-buttion {
             color: #ffffff;
           }
@@ -56,6 +54,9 @@
             margin: 0 auto;
             height: calc(100vh - 56px);
           }
+          app-header, app-toolbar {
+            height: 64px;
+          }
           /* small screen */
           @media (max-width: 767px) {
             :host {
@@ -67,6 +68,9 @@
             :host([page=detail]) .menu-btn {
               display: none;
             }
+            app-header, app-toolbar {
+              height: 56px;
+            }
           }
          .menu-icon {
             padding-right: 8px;
@@ -74,7 +78,7 @@
           }
            .header {
             background-color: #BF360C;
-            //height: 130px;
+            height: 130px;
             display: flex;
             align-items: flex-end;
           }
@@ -93,6 +97,14 @@
             margin-top: 8px;
             color: #fff;
           }
+          .tabs {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            //margin-right: 24px;
+            margin-top: -14px;
+          }
           .tabs a {
             position: relative;
             color: white;
@@ -101,12 +113,21 @@
 
           }
           .tabs {
+            height: 64px;
+          }
+          .profile-pic-desktop {
+            margin-left: 10px;
+          }
+          .profile-pic-desktop img {
+            width: 48px;
+            height: 48px;
+            border-radius: 100%;
           }
           .tabs-wrapper {
             text-align: right;
-            width: 1200px;
+            max-width: 1200px;
             margin: 0 auto;
-                padding: 24px;
+
           }
           #tabContainer {
             left: 0;
@@ -115,17 +136,12 @@
             margin-bottom: 20px;
             position: fixed;
             top: 0;
-            height: 56px;
+            height: 64px;
           }
           .tabs a.iron-selected {
             /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,bc2c00+100 */
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,a00a00+100 */
-    background: #bf360c; /* Old browsers */
-    background: -moz-linear-gradient(top,  #bf360c 0%, #bf360c 44%, #a00a00 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf360c', endColorstr='#a00a00',GradientType=0 ); /* IE6-9 */
-    font-weight: bold;
+  font-weight: bold;
           }
 
     </style>

@@ -85,24 +85,30 @@
              <div id="tabContainer" primary$="[[!smallScreen]]" hidden$="[[smallScreen]]">
                <div class="tabs-wrapper">
                  <template is="dom-if" if="[[!smallScreen]]">
+                   <menu class="desktop-menu">
                     <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
-                         <a name="home" href="/home">
-                           <paper-ripple></paper-ripple>
-                         Home</a>
-                         <a name="community" href="/community">
-                           <paper-ripple></paper-ripple>
-                         Community</a>
-                         <a name="about" href="/about">
-                           <paper-ripple></paper-ripple>
-                         About</a>
-                         <a name="support" href="/support">
-                           <paper-ripple></paper-ripple>
-                         Support</a>
-                         <a name="settings" href="/settings">
-                           <paper-ripple></paper-ripple>
-                         Settings</a>
-                    </tabs>
 
+                          <a name="home" href="/home">
+                            <paper-ripple></paper-ripple>
+                          Home</a>
+                          <a name="community" href="/community">
+                            <paper-ripple></paper-ripple>
+                          Community</a>
+                          <a name="about" href="/about">
+                            <paper-ripple></paper-ripple>
+                          About</a>
+
+                          <a name="settings" href="/settings">
+                            <paper-ripple></paper-ripple>
+                          Settings</a>
+
+                          <span class="profile-pic-desktop">
+                            <img src="{{user.photoURL}}" >
+                          </span>
+
+
+                    </iron-selector>
+                  </menu>
 
 
                  </template>
@@ -117,6 +123,7 @@
                <div class="header">
                  <div class="header-inner">
                    <div class="profile-pic">
+
                      <img src="{{user.photoURL}}" >
                    </div>
                    <div class="username">
@@ -131,7 +138,7 @@
 
                  <a name="community" href="/community">
                    <paper-ripple></paper-ripple>
-                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
+                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>'Round the World</a>
 
                  <hr  noshade="noshade">
 
@@ -141,12 +148,6 @@
                  <a name="about" href="/about">
                    <paper-ripple></paper-ripple>
                    <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
-                 <a name="support" href="/support">
-                   <paper-ripple></paper-ripple>
-                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
-
-                   <a on-tap="logOut" href="#">
-                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
                </iron-selector>
              </app-drawer>
            </template>
@@ -184,7 +185,11 @@
                   value: 'home',
                   reflectToAttribute: true,
                   notify: true
-                }
+                },
+                user: {
+                 type: Object,
+                 notify: true
+               }
             },
 
             listeners: {

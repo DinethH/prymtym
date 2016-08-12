@@ -101,6 +101,7 @@
                <div class="header">
                  <div class="header-inner">
                    <div class="profile-pic">
+
                      <img src="{{user.photoURL}}">
                    </div>
                    <div class="username">
@@ -115,7 +116,7 @@
 
                  <a name="community" href="/community">
                    <paper-ripple></paper-ripple>
-                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
+                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>'Round the World</a>
 
                  <hr noshade="noshade">
 
@@ -125,12 +126,6 @@
                  <a name="about" href="/about">
                    <paper-ripple></paper-ripple>
                    <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
-                 <a name="support" href="/support">
-                   <paper-ripple></paper-ripple>
-                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
-
-                   <a on-tap="logOut" href="#">
-                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
                </iron-selector>
              </app-drawer>
            </template>
@@ -152,6 +147,6 @@
              </neon-animated-pages>
 
     </template>
-    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")}});</script>
+    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0},user:{type:Object,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")}});</script>
 </dom-module>
 </body></html>
