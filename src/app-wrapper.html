@@ -73,13 +73,13 @@
       },
       _initializeToken: function () {
         //console.log("Init " + this.token);
-        let page = document.createElement('div');
+        var ps = document.createElement('div');
         // if token is undefined import sign in page
         if (this.token === undefined) {
           this.importHref(this.resolveUrl('prymtym-sign.html'),
             null, null, true);
             //console.log('Sign in page loaded');
-            page.innerHTML = `<prymtym-sign unresolved id="signinPage"></prymtym-sign>`;
+            ps.innerHTML = '<prymtym-sign unresolved id="signinPage"></prymtym-sign>';
 
             // destroy undefined key
             this.$.tokenDoc.destroy();
@@ -93,7 +93,7 @@
 
         }
 
-        this.$.pages.appendChild(page);
+        this.$.pages.appendChild(ps);
       },
       _tokenChanged: function () {
         //console.log("Subsequent " + this.token);

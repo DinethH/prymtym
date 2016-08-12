@@ -2,7 +2,40 @@
 
 </head><body><dom-module id="prymtym-checkins">
   <template strip-whitespace="">
-    <style>:host{display:block;margin-right:10px;}.circle{width:12px;height:12px;border-radius:50%;border:2px solid #ccc;}.circle-current{width:18px;height:18px;}.circle-wrapper{height:24px;width:30px;display:flex;align-items:center;justify-content:center;}.hour{padding-top:8px;font-size:12px;}.hour-current{font-weight:bold;}.checked{background:#ccc;}</style>
+    <style>
+      :host {
+        display: block;
+        margin-right: 10px;
+      }
+      .circle {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+      }
+      .circle-current {
+        width: 18px;
+        height: 18px;       
+      }
+      .circle-wrapper {
+        height: 24px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;       
+      }
+      .hour {
+        padding-top: 8px;
+        font-size: 12px;        
+      }
+      .hour-current {
+        font-weight: bold;        
+      }
+      .checked {
+        background: #ccc;
+      }
+
+    </style>
     <div class="circle-wrapper">
       <div class$="{{setCurrent(current, checked)}}"></div>
     </div>

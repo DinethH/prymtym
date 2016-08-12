@@ -1,0 +1,41 @@
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
+</head><body><dom-module id="app-wrapper">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      prymtym-app[unresolved] {
+        display: block;
+        height: 56px;
+        width: 100vw;
+        background: #BF360C;
+      }
+
+      prymtym-sign[unresolved] {
+        display: block;
+        height: 100vh;
+        //background: #000;
+        background-image: url('../images/app-icon.svg');
+        background-repeat: no-repeat;
+        background-size: 200px;
+        background-position: center;
+      }
+    </style>
+    <app-location route="{{route}}"></app-location>
+
+    <app-localstorage-document id="tokenDoc" key="firebase:authUser:AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40:prymtym" data="{{token}}" zerovalue="-1"></app-localstorage-document>
+    <firebase-auth app-name="prymtym" id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}">
+    </firebase-auth>
+    <section id="pages">
+      <prymtym-app id="ptapp" route="{{route}}">
+    </prymtym-app></section>
+
+  </template>
+  <script>Polymer({is:"app-wrapper",properties:{token:{observer:"_tokenChanged"},route:{notify:!0}},listeners:{"firebase-signin":"_signIn"},attached:function(){this.route.path||this.set("route.path","/home")},created:function(){this.removeAttribute("unresolved")},ready:function(){Polymer.RenderStatus.afterNextRender(this.$.tokenDoc,function(){this._initializeToken()}.bind(this))},_initializeToken:function(){var t=document.createElement("div");void 0===this.token?(this.importHref(this.resolveUrl("prymtym-sign.html"),null,null,!0),t.innerHTML='<prymtym-sign unresolved id="signinPage"></prymtym-sign>',this.$.tokenDoc.destroy()):(this.$.ptapp.setAttribute("unresolved",!0),this.importHref(this.resolveUrl("prymtym-app.html"),null,null,!0)),this.$.pages.appendChild(t)},_tokenChanged:function(){},_signIn:function(){this.$.auth.signInWithPopup().then(function(t){this.importHref(this.resolveUrl("prymtym-app.html"),null,null,!0),console.log("App is loaded");const e=this.$.pages.children[1];this.$.pages.removeChild(e)}.bind(this)).catch(function(t){})}});</script>
+</dom-module>
+</body></html>

@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/bower_components/firebase/firebase.js","c03269be4e77cdea1d7fdd824831f3d3"],["/bower_components/google-chart/loader.js","526c7a1b6d15c9d7073d042928f87e29"],["/bower_components/webcomponentsjs/webcomponents-lite.min.js","0fc977baabe843e858c7d6cde05986e7"],["/index.html","7a0b9f13faaafcd7f1d9c43cb9a89570"],["/manifest.json","6847f25f5ef12373d6b324c2669cc45b"],["/src/prymtym-about.html","bf9b95ee02e7e58d7df1e28a34f66d83"],["/src/prymtym-app.html","d6efd1d2db740a99d98fed212c8b4df6"],["/src/prymtym-checkin.html","32439091aa5f4e2be6dfbe279312b019"],["/src/prymtym-community.html","935bedcdf443f3c52cdfc0324b75dcf1"],["/src/prymtym-home.html","e5c555989279e7ce2ec1d53916ed1609"],["/src/prymtym-settings.html","ac175079d8015778ebd22090dcb54645"],["/src/prymtym-sign.html","b7c71120fcae03d3ef1a386bdb7f27de"],["/src/prymtym-support.html","9debe5f80a0647b5843997b0fb27703c"]];
+var PrecacheConfig = [["/index.html","274f96f841d2e47d2ba5fc7028f14272"],["/src/app-wrapper.html","65d751230cf489c972f09892e77e07b6"],["/src/prymtym-app.html","67e9957dd276de53b2a60ea2f7a62dd8"],["/src/prymtym-sign.html","1b4b9508165c04b4fa178277da0c5b39"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 

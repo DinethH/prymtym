@@ -1,18 +1,238 @@
-<html><head><meta charset="UTF-8"><link rel="import" href="prymtym-app.html"></head><body><dom-module id="prymtym-checkin">
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+</head><body><dom-module id="prymtym-checkin">
 
   <template>
 
-    <style>:host{display:block;position:fixed !important;z-index:10;transform-origin:right bottom;will-change:transform;animation-name:ripple;animation-duration:0.2s;animation-delay:0.2s;opacity:0;animation-fill-mode:forwards;animation-timing-function:ease-in-out;}.checkin{width:100%;height:100vh;top:0;background:#F57F17;transition:background 0.2s ease-in;}.question-container{color:white;min-height:175px;padding:16px;display:flex;padding-left:24px;align-items:flex-end;}.question-container h1{margin:0;font-weight:400;}.answers-container{display:flex;justify-content:center;height:100%;align-items:center;flex-wrap:wrap;padding-top:40px;}.answer-icon{width:80px;-webkit-filter:grayscale(100%);filter:grayscale(100%);transition:filter 0.2s;transition:-webkit-filter 0.2s;}.answer-text{//display:none;text-align:center;font-size:12px;font-weight:bold;color:#ffffff;padding-top:8px;}.submit-answer{position:fixed;bottom:16px;right:16px;background:orange;display:none;}.nav-buttons{bottom:0;display:flex;position:absolute;width:100%;margin-bottom:8px;}.nav-left-button, .nav-right-button{flex-grow:1;}.nav-right-button{text-align:right;}paper-button, .nav-buttons a{color:white;text-decoration:none;}.answer{min-width:128px;text-align:center;padding-left:10px;padding-right:10px;padding-bottom:20px;color:white;}@keyframes ripple{from{transform:scale(0,0);opacity:0;border-top-left-radius:50%;overflow:hidden;}to{transform:scale(1,1);opacity:1;border-top-left-radius:0;overflow:hidden;}}</style>
+    <style>
+      :host {
+        display: block;
+        position: fixed !important;
+        z-index: 10;   
+    transform-origin: right bottom;
+    will-change: transform;
+    animation-name: ripple;
+    animation-duration: 0.2s;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;   
+    animation-timing-function: cubic-bezier(0.51, 0.01, 0.27, 0.82);
+      }
+      .checkin {
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        //background: var(--app-accent-color);
+        background: #366EAB;
+        transition: background 0.2s ease-in;
+   
+      }
+            .checkin-header {
+        height: 64px;
+        width: 100%;
+        //background-color:  var(--app-accent-color);
+      }
+            .arrow-back {
+        color: white;
+            margin: 16px;
+      }
+      .question-container {
+        color: white;
+        height: 175px;
+        padding: 16px;
+        display: flex;
+        padding-left: 24px;
+        align-items: flex-end;
+      }
+      .question-container h1 {
+        margin: 0;
+        font-weight: 400;
+        animation-fill-mode: forwards;
+
+        position: absolute;
+
+      }
+      .h1-answered {
+        animation: answerSelected 0.3s ease-in-out;   
+      }
+      .answers-container {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 40px;
+      }
+      .answer-icon {
+        width: 80px;
+
+        -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+        filter: grayscale(100%);
+        transition: filter 0.2s;
+        transition: -webkit-filter 0.2s;
+      }
+      .answer-text {
+        //display: none;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+        color: #ffffff;
+        padding-top: 8px;
+        
+      }
+      .submit-answer {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        background: orange;
+        //display: none;
+      }
+      .nav-buttons {
+        bottom: 0;
+        display: flex;
+        position: absolute;
+        width: 100%;  
+        margin-bottom: 8px;
+      }
+      .nav-left-button, .nav-right-button {
+        flex-grow: 1;
+        
+      }
+      .nav-right-button {
+        text-align: right;
+      }
+      paper-button, .nav-buttons a  {
+        color: white;
+        text-decoration: none;
+      }
+      .answer {
+        min-width: 128px;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 20px;
+        color: white;
+      }
+
+      @keyframes ripple {
+          from {
+    top: 100vh;
+    opacity: 0;
+    overflow: hidden;
+          }
+          to {
+    opacity: 1;
+    top: 0;
+    overflow: hidden;
+          }
+      }  
+      
+      .cover {
+        background: url(../images/scenes/001.jpg);
+        background-size: cover;
+      }
+      .overlay {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#366eab+0,366eab+100&0+20,1+82 */
+background: -moz-linear-gradient(top,  rgba(54,110,171,0) 0%, rgba(54,110,171,0) 20%, rgba(54,110,171,1) 82%, rgba(54,110,171,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(54,110,171,0) 0%,rgba(54,110,171,0) 20%,rgba(54,110,171,1) 82%,rgba(54,110,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(54,110,171,0) 0%,rgba(54,110,171,0) 20%,rgba(54,110,171,1) 82%,rgba(54,110,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', endColorstr='#366eab',GradientType=0 ); /* IE6-9 */
+
+
+        height: 271px;
+        margin-top: -271px;
+      }
+      
+      @keyframes answerSelected {
+        from {
+          margin-top: 0;
+        }
+        to {
+          //margin-top: -100px;
+          font-size: 20px; 
+        }
+      }  
+      h2 {
+        font-size: 30px;
+        font-weight: 400;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out 0.4s;
+        
+      }
+      .answeredH2 {
+        opacity: 1;
+      }
+      @keyframes showGreetingAnimation {
+        from {
+          opacity: 0;
+          display: block;
+        }
+        to {
+          opacity: 1;
+        }
+      }   
+      
+      .block-checkin {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: #366EAB;
+        color: white;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;   
+        display: none;
+      }
+    </style>
     
     <firebase-document id="checkinFB" app-name="prymtym">
     </firebase-document>
+  
+      <firebase-document id="getStatus" app-name="prymtym" path="/users/[[user.uid]]/prymData/2016/7/21/2" data="{{checkedInStatus}}">
+    </firebase-document>  
+    
+   
+    <div id="blockCheckin" class="block-checkin">
+            <p style="text-align: center;
+    padding: 30px">You've already checked in for the hour. Please check again in an hour.</p>
+            
+                        <a name="home" href="/home">
+                      <paper-button>OK</paper-button>
+                      </a>
+          </div>  
+
     
     
       <div id="checkin" class="checkin">
-
-        <div class="question-container">
-          <h1>How are you feeling {{firstName}}?</h1>
+        
+        <div class="cover">
+        
+          <div class="checkin-header">
+            <a name="home" href="/home">
+              <paper-icon-button class="arrow-back" icon="close"></paper-icon-button>
+            </a>
+          </div>
+          
+        
+  
+          <div class="question-container">
+            <h1 class$="{{getClasses(answered)}}">How are you feeling {{firstName}}?</h1>
+            <h2 class$="{{getClassesH2(answered)}}">
+              That's wonderful!
+            </h2>
+          </div>
+          
         </div>
+        
+        <div class="overlay"></div>
         
         
         
@@ -37,25 +257,18 @@
           </iron-selector>
         </div>
        
-       <div class="nav-buttons">
-         <div class="nav-left-button">
-            <a name="home" href="/home">
-              <paper-button>Cancel</paper-button>
-            </a>           
-         </div>
-         <div class="nav-right-button">
-            <a>
-              <paper-button on-tap="saveData">Save</paper-button>
-            </a>             
-         </div>
-       </div>
+       
+       
+       <paper-fab id="submitAnswer" on-click="saveData" class="submit-answer" icon="icons:check"></paper-fab>
+
     
 
         
       </div>    
-    
+      
+
   </template>
 
-  <script>Polymer({is:"prymtym-checkin",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},user:{type:Object,notify:!0,observer:"_userChanged"},firstName:{type:String},answer:{observer:"_answerChanged"},animationConfig:{value:function(){return{exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.NeonAnimatableBehavior],_visibleChanged:function(e){e&&this.fire("change-section",{title:"Checkin"})},dataChanged:function(e,t){},_answerChanged:function(){switch(this.answer){case 0:this.$.img0.style.webkitFilter="none",this.$.img0.style.filter="none",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)";break;case 1:this.$.img1.style.webkitFilter="none",this.$.img1.style.filter="none",this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)";break;case 2:this.$.img2.style.webkitFilter="none",this.$.img2.style.filter="none",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)";break;case 3:this.$.img3.style.webkitFilter="none",this.$.img3.style.filter="none",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)"}window.navigator.vibrate(10)},_userChanged:function(){this.user&&(this.firstName=this.user.displayName.split(" ")[0])},saveData:function(){var e=new Date,t=e.getFullYear(),i=e.getMonth(),s=e.getDate(),a=e.getHours(),l=e.getTimezoneOffset(),r=e.getTime(),g="/users/"+this.user.uid+"/prymData/"+t+"/"+i+"/"+s+"/"+a,y=new Object;y.timestamp=r,y.timezone=l,y.prymLevel=this.answer,this.$.checkinFB.setStoredValue(g,y)}});</script>
+  <script>Polymer({is:"prymtym-checkin",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},user:{type:Object,notify:!0,observer:"_userChanged"},firstName:{type:String},answer:{observer:"_answerChanged"},answered:{type:Boolean,value:!1},checkedInStatus:{observer:"_checkedInStatusChanged"},showBlockCheckin:{type:Boolean,value:!1},animationConfig:{value:function(){return{exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.NeonAnimatableBehavior],_visibleChanged:function(e){e&&this.fire("change-section",{title:"Checkin"})},dataChanged:function(e,t){},_answerChanged:function(){switch(this.answer){case 0:this.$.img0.style.webkitFilter="none",this.$.img0.style.filter="none",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)";break;case 1:this.$.img1.style.webkitFilter="none",this.$.img1.style.filter="none",this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)";break;case 2:this.$.img2.style.webkitFilter="none",this.$.img2.style.filter="none",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)";break;case 3:this.$.img3.style.webkitFilter="none",this.$.img3.style.filter="none",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)"}this.answer>=0&&(this.answered=!0),window.navigator.vibrate(10)},_userChanged:function(){this.user&&(this.firstName=this.user.displayName.split(" ")[0])},saveData:function(){var e=new Date,t=e.getFullYear(),i=e.getMonth()+1,s=e.getDate(),l=e.getHours(),a=e.getTimezoneOffset(),r=e.getTime(),n="/users/"+this.user.uid+"/prymData/"+t+"/"+i+"/"+s+"/"+l,g=new Object;g.timestamp=r,g.timezone=a,g.prymLevel=this.answer,this.$.checkinFB.setStoredValue(n,g),this.answer=null,this.$.img0.style.webkitFilter="grayscale(100%)",this.$.img0.style.filter="grayscale(100%)",this.$.img1.style.webkitFilter="grayscale(100%)",this.$.img1.style.filter="grayscale(100%)",this.$.img2.style.webkitFilter="grayscale(100%)",this.$.img2.style.filter="grayscale(100%)",this.$.img3.style.webkitFilter="grayscale(100%)",this.$.img3.style.filter="grayscale(100%)",this.answered=!1},getClasses:function(e){var t="";return e&&(t="h1-answered"),t},getClassesH2:function(e){var t="";return e&&(t="answeredH2"),t},_checkedInStatusChanged:function(){"number"==typeof this.checkedInStatus.timestamp?this.$.blockCheckin.style.display="block":this.$.blockCheckin.style.display="none",console.log(typeof this.checkedInStatus.timestamp),console.log(this.showBlockCheckin)}});</script>
 
 </dom-module></body></html>

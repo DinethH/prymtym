@@ -1,6 +1,6 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
 
-<dom-module id="prymtym-style">
+</head><body><dom-module id="prymtym-style">
   <template>
     <style>
 
@@ -9,10 +9,7 @@
             z-index: 1;
             background-color: var(--app-accent-color);
           }
-          app-header, app-toolbar {
-            height: 56px !important;
-          }
-          paper-icon-buttion {
+          paper-icon-button {
             color: #ffffff;
           }
           .left-bar-item {
@@ -20,7 +17,6 @@
           }
           .menu-btn {
             display: none;
-            color: white;
           }
           :host(:not([page=detail])) .back-btn {
             display: none;
@@ -48,18 +44,17 @@
             border: 1px solid #ececec;
           }
           app-drawer {
-            --app-drawer-width: calc(100vw - 56px);
             z-index: 3;
           }
           neon-animated-pages {
             max-width: 1200px;
             margin: 0 auto;
-            height: calc(100vh - 56px);
+            height: calc(100vh - 64px);
           }
           /* small screen */
           @media (max-width: 767px) {
             :host {
-              padding-top: 56px;
+              padding-top: 64px;
             }
             .menu-btn {
               display: block;
@@ -115,7 +110,7 @@
             margin-bottom: 20px;
             position: fixed;
             top: 0;
-            height: 56px;
+            height: 64px;
           }
           .tabs a.iron-selected {
             /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,bc2c00+100 */
@@ -131,9 +126,6 @@
     </style>
 
   </template>
-  <script>
-    Polymer({
-      is: 'prymtym-style'
-    });
-  </script>
+  <script>Polymer({is:"prymtym-style"});</script>
 </dom-module>
+</body></html>

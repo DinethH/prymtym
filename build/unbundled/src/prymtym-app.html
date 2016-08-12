@@ -1,167 +1,157 @@
 <html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
-
-<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
-
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-layout/helpers/helpers.html">
-<link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
-
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-
-
-
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
-
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
-
-
-
-
-
-<link rel="import" href="prymtym-sign.html">
-
 <link rel="import" href="prymtym-home.html">
-
 <link rel="import" href="prymtym-about.html" async="">
 <link rel="import" href="prymtym-checkin.html" async="">
 <link rel="import" href="prymtym-community.html" async="">
 <link rel="import" href="prymtym-settings.html" async="">
 <link rel="import" href="prymtym-support.html" async="">
 
-
-
+<link rel="import" href="./prymtym-style.html">
 </head><body><dom-module id="prymtym-app">
-  <template>
-    <style>:host{display:block;position:relative;--app-primary-color:#202020;--app-secondary-color:#333;--app-accent-color:#BF360C;--paper-button-ink-color:var(--app-accent-color);--paper-icon-button-ink-color:var(--app-accent-color);--paper-spinner-color:var(--app-accent-color);-webkit-tap-highlight-color:rgba(0, 0, 0, 0);color:var(--app-primary-color);padding-top:130px;}app-header{@apply (--layout-fixed-top);z-index:1;background-color:var(--app-accent-color);}paper-icon-button{color:#ffffff;}.left-bar-item{width:40px;}.menu-btn{display:none;}:host(:not([page=detail])) .back-btn{display:none;}[hidden]{display:none !important;}.drawer-list{margin:0 20px;}.drawer-list a{display:block;padding:8px 16px;line-height:40px;text-decoration:none;font-weight:500;color:#666;position:relative;}.drawer-list a.iron-selected{color:var(--app-accent-color);background:#ececec;}hr{border:1px solid #ececec;}app-drawer{z-index:3;}neon-animated-pages{max-width:1200px;margin:0 auto;height:calc(100vh - 64px);}@media (max-width: 767px){:host{padding-top:64px;}.menu-btn{display:block;}:host([page=detail]) .menu-btn{display:none;}}.menu-icon{padding-right:8px;margin-top:-3px;}.header{background-color:#BF360C;height:130px;display:flex;align-items:flex-end;}.header-inner{margin-left:16px;margin-bottom:8px;}.profile-pic img{width:60px;height:60px;border-radius:50%;//background:#fff;}.username{margin-top:8px;color:#fff;}.tabs a{position:relative;color:white;text-decoration:none;padding:20px;}.tabs{}.tabs-wrapper{text-align:right;width:1200px;margin:0 auto;padding:24px;}#tabContainer{left:0;width:100vw;margin-bottom:20px;position:fixed;top:0;height:64px;}.tabs a.iron-selected{background:#bf360c;background:-moz-linear-gradient(top,  #bf360c 0%, #bf360c 44%, #a00a00 100%);background:-webkit-linear-gradient(top,  #bf360c 0%,#bf360c 44%,#a00a00 100%);background:linear-gradient(to bottom,  #bf360c 0%,#bf360c 44%,#a00a00 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf360c', endColorstr='#a00a00',GradientType=0 );font-weight:bold;}</style>
-    
-    <app-location route="{{route}}"></app-location>
-    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+    <template>
 
-    
-    <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>   
-    
-    <firebase-auth app-name="prymtym" id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}">
-    </firebase-auth>
-    
-    <app-indexeddb-mirror session="[[user.uid]]" key="prymtym-signed-in" data="{{signedInObject}}" persisted-data="{{signedInObjectPersist}}">
-    </app-indexeddb-mirror>    
-    
-    <firebase-query app-name="prymtym" path="/users/[[user.uid]]" data="{{userStatus}}">
-    </firebase-query>
-    
-    <firebase-document id="initializeUser" app-name="prymtym">
-    </firebase-document>
-     
+        <style include="prymtym-style"></style>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                --app-primary-color: #202020;
+                --app-secondary-color: #333;
+                --app-accent-color: #BF360C;
+                --paper-button-ink-color: var(--app-accent-color);
+                --paper-icon-button-ink-color: var(--app-accent-color);
+                --paper-spinner-color: var(--app-accent-color);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                color: var(--app-primary-color);
+                //padding-top: 130px;
+            }
+        </style>
+        <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{subroute}}"></app-route>
 
-    
+        <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
+        <app-indexeddb-mirror session="[[user.uid]]" key="prymtym-signed-in" data="{{signedInObject}}" persisted-data="{{signedInObjectPersist}}">
+            </app-indexeddb-mirror>
 
-    
-     <app-header role="navigation" id="header" effects="waterfall" condenses="" fixed="">
-      <app-toolbar>
-        <div class="left-bar-item">
-          <paper-icon-button class="menu-btn" icon="menu" on-click="_toggleDrawer">
-            
-          </paper-icon-button>
-     
-          <a class="back-btn" href="/home" tabindex="-1">
-            <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
-          </a>
-        </div>
-      </app-toolbar>
+           <firebase-query app-name="prymtym" path="/users/[[user.uid]]" data="{{userStatus}}">
+           </firebase-query>
 
-      
-      <div id="tabContainer" primary$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
-        <div class="tabs-wrapper">
-          <template is="dom-if" if="[[_shouldRenderTabs]]">
-             <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
-                  <a name="home" href="/home">
-                    <paper-ripple></paper-ripple>
-                  Home</a>  
-                  <a name="community" href="/community">
-                    <paper-ripple></paper-ripple>
-                  Community</a>  
-                  <a name="about" href="/about">
-                    <paper-ripple></paper-ripple>
-                  About</a>  
-                  <a name="support" href="/support">
-                    <paper-ripple></paper-ripple>
-                  Support</a>  
-                  <a name="settings" href="/settings">
-                    <paper-ripple></paper-ripple>
-                  Settings</a>  
+           <firebase-document id="initializeUser" app-name="prymtym">
+           </firebase-document>
+           <app-header role="navigation" id="header" effects="waterfall" condenses="" fixed="">
+             <app-toolbar>
+               <div class="left-bar-item">
+                 <paper-icon-button class="menu-btn" icon="menu" on-click="_toggleDrawer">
+
+                 </paper-icon-button>
+
+                 <a class="back-btn" href="/home" tabindex="-1">
+                   <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
+                 </a>
+               </div>
+             </app-toolbar>
+
+
+
              
+             <div id="tabContainer" primary$="[[!smallScreen]]" hidden$="[[smallScreen]]">
+               <div class="tabs-wrapper">
+                 <template is="dom-if" if="[[!smallScreen]]">
+                    <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
+                         <a name="home" href="/home">
+                           <paper-ripple></paper-ripple>
+                         Home</a>
+                         <a name="community" href="/community">
+                           <paper-ripple></paper-ripple>
+                         Community</a>
+                         <a name="about" href="/about">
+                           <paper-ripple></paper-ripple>
+                         About</a>
+                         <a name="support" href="/support">
+                           <paper-ripple></paper-ripple>
+                         Support</a>
+                         <a name="settings" href="/settings">
+                           <paper-ripple></paper-ripple>
+                         Settings</a>
+                    
+
+
+
+                 </iron-selector></template>
+               </div>
+             </div>
+           </app-header>
+
+           
+           <template is="dom-if" if="[[smallScreen]]">
              
-  
-  
-          </iron-selector></template>
-        </div>
-      </div>
-    </app-header>   
-    
-    <template is="dom-if" if="[[_shouldRenderDrawer]]">
-      
-      <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
-        <div class="header">
-          <div class="header-inner">
-            <div class="profile-pic">
-              <img src="{{user.photoURL}}">
-            </div>
-            <div class="username">
-              {{user.displayName}}
-            </div>
-          </div>
-        </div>
-        <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
-          <a name="home" href="/home">
-            <paper-ripple></paper-ripple>
-            <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>Home</a>
-            
-          <a name="community" href="/community">
-            <paper-ripple></paper-ripple>
-            <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
-          
-          <hr noshade="noshade">
-          
-          <a name="settings" href="/settings">
-            <paper-ripple></paper-ripple>
-            <iron-icon class="menu-icon" icon="icons:settings"></iron-icon>Settings</a>
-          <a name="about" href="/about">
-            <paper-ripple></paper-ripple>
-            <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
-          <a name="support" href="/support">
-            <paper-ripple></paper-ripple>
-            <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
-            
-            <a on-tap="logOut" href="#">
-            <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
-        </iron-selector>
-      </app-drawer>
+             <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
+               <div class="header">
+                 <div class="header-inner">
+                   <div class="profile-pic">
+                     <img src="{{user.photoURL}}">
+                   </div>
+                   <div class="username">
+                     {{user.displayName}}
+                   </div>
+                 </div>
+               </div>
+               <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
+                 <a name="home" href="/home">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>Home</a>
+
+                 <a name="community" href="/community">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
+
+                 <hr noshade="noshade">
+
+                 <a name="settings" href="/settings">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:settings"></iron-icon>Settings</a>
+                 <a name="about" href="/about">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
+                 <a name="support" href="/support">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
+
+                   <a on-tap="logOut" href="#">
+                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
+               </iron-selector>
+             </app-drawer>
+           </template>
+
+
+
+
+           <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+
+
+               
+               <prymtym-home id="home" name="home"></prymtym-home>
+               <prymtym-community id="community" name="community"></prymtym-community>
+               <prymtym-settings id="settings" name="settings"></prymtym-settings>
+               <prymtym-about id="about" name="about"></prymtym-about>
+               <prymtym-support id="support" name="support"></prymtym-support>
+               <prymtym-checkin id="checkin" name="checkin" user="{{user}}"></prymtym-checkin>
+
+             </neon-animated-pages>
+
     </template>
- 
-    <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-      <template is="dom-if" if="[[userStatusPersist.length == 0]]">
-        <prymtym-sign name="sign"></prymtym-sign>
-      </template>
-      
-      
-      <prymtym-home id="home" name="home"></prymtym-home>
-      <prymtym-community id="community" name="community"></prymtym-community>
-      <prymtym-settings id="settings" name="settings"></prymtym-settings>
-      <prymtym-about id="about" name="about"></prymtym-about>
-      <prymtym-support id="support" name="support"></prymtym-support>
-      <prymtym-checkin id="checkin" name="checkin" user="{{user}}"></prymtym-checkin>
-
-    </neon-animated-pages>
-    
-  </template>
-
-  <script>Polymer({is:"prymtym-app",properties:{page:{type:String,reflectToAttribute:!0,observer:"_pageChanged"},user:{type:Object,notify:!0,observer:"_userChanged"},signedIn:{type:Boolean,observer:"_signedInChanged"},signedInObject:Object,signedInObjectPersist:{type:Object,value:"false",observer:"_signedInObjectPersistChanged"},_shouldRenderDrawer:{computed:"_computeShouldRenderDrawer(smallScreen, loadComplete)"},_shouldShowTabs:{computed:"_computeShouldShowTabs(page, smallScreen)"},_shouldRenderTabs:{computed:"_computeShouldRenderTabs(_shouldShowTabs, loadComplete)"},_showLoginPage:{computed:"_computeShouldRenderLoginPage()"}},observers:["_routePageChanged(routeData.page)"],listeners:{"change-section":"_onChangeSection","firebase-signin":"_signIn"},created:function(){this.removeAttribute("unresolved")},ready:function(){Polymer.RenderStatus.afterNextRender(this,function(){this.listen(window,"online","_notifyNetworkStatus"),this.listen(window,"offline","_notifyNetworkStatus")})},_routePageChanged:function(e){this.page=e||"home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_pageChanged:function(e,t){null!=e&&("home"==e?this._pageLoaded(Boolean(t)):"sign"!=e&&!Polymer.isInstance(this.$.page))},_pageLoaded:function(e){this._ensureLazyLoaded(),e&&this.async(function(){this.$.header.resetLayout()},1)},_ensureLazyLoaded:function(){this.loadComplete||Polymer.RenderStatus.afterNextRender(this,function(){"serviceWorker"in navigator&&navigator.serviceWorker.register("/service-worker.js"),this._notifyNetworkStatus(),this.loadComplete=!0})},_notifyNetworkStatus:function(){var e=this.offline;this.offline=!navigator.onLine,this.offline||!this.offline&&e===!0},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym",this._announce(t.title+", loaded"))},_onAnnounce:function(e){this._announce(e.detail)},_announce:function(e){this._a11yLabel="",this.debounce("_a11yAnnouncer",function(){this._a11yLabel=e},100)},_computeShouldRenderDrawer:function(e,t){return e&&t},_computeShouldShowTabs:function(e,t){return("home"===e||"sign"===e||"community"===e||"settings"===e||"about"===e||"support"===e||"checkin"===e)&&!t},_computeShouldRenderTabs:function(e,t){return e&&t},_computeShouldRenderDrawer:function(e,t){return e&&t},_signIn:function(){this.$.auth.signInWithPopup().then(function(e){})["catch"](function(e){})},_userChanged:function(){null===this.user?this.page="sign":this.user&&(this.signedIn=!0,""==this.routeData.page?this.page="home":this.page=this.routeData.page)},_signedInChanged:function(){this.signedInObject=JSON.stringify(this.signedIn)},_signedInObjectPersistChanged:function(){if("true"===this.signedInObjectPersist){var e="/users/"+this.$.auth.user.uid+"/dates/signedUp/",t=new Date,n=new Object;n.timestamp=t.getTime(),n.timezone=t.getTimezoneOffset(),this.$.initializeUser.setStoredValue(e,n),e="/users/"+this.$.auth.user.uid+"/dates/lastLoggedIn/",this.$.initializeUser.setStoredValue(e,n)}}});</script>
+    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")}});</script>
 </dom-module>
 </body></html>

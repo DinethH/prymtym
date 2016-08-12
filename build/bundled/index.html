@@ -5,19 +5,36 @@
     <link rel="shortcut icon" sizes="32x32" href="/images/app-icon-32.png">
     <meta name="theme-color" content="#BF360C">
     <link rel="manifest" href="/manifest.json">
-    <link rel="import" href="/src/prymtym-app.html" async="">
-    
+    <link rel="import" href="/src/app-wrapper.html" async="">
 
-    <style>body{margin:0;font-family:'Roboto', 'Noto', sans-serif;font-weight:400;color:#202020;min-height:100vh;}prymtym-app[unresolved]{display:block;height:100vh;background:#fff;background-image:url('../images/app-icon.svg');background-repeat:no-repeat;background-size:200px;background-position:center;}</style>   
-    
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-weight: 400;
+        color: #202020;
+        min-height: 100vh;
+      }
+      /* styling for render while resources are loading */
+    app-wrapper[unresolved] {
+        display: block;
+        height: 100vh;
+        //background: #000;
+        background-image: url('../images/app-icon.svg');
+        background-repeat: no-repeat;
+        background-size: 200px;
+        background-position: center;
+      }
+    </style>
+
   </head>
   <body>
-    
+
     <firebase-app name="prymtym" api-key="AIzaSyBi00fVYW26MvFFCqUFOzWYQpaBwi5rE40" auth-domain="prymtymeapp.firebaseapp.com" database-url="https://prymtymeapp.firebaseio.com">
-    </firebase-app>    
-    
-    <prymtym-app unresolved=""></prymtym-app>
-    
+    </firebase-app>
+
+  <app-wrapper unresolved=""></app-wrapper>
+
     <script>Polymer={lazyRegister:!0,dom:"shadow"},function(){if("registerElement"in document&&"import"in document.createElement("link")&&"content"in document.createElement("template"));else{var e=document.createElement("script");e.src="/bower_components/webcomponentsjs/webcomponents-lite.min.js",document.body.appendChild(e)}}();</script>
   
 

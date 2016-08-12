@@ -13,7 +13,8 @@
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "google-chart": "GoogleWebComponents/google-chart#^1.0.6",
     "polymerfire": "firebase/polymerfire#^0.9.3",
-    "iron-scroll-target-behavior": "PolymerElements/iron-scroll-target-behavior#^1.0.6"
+    "iron-scroll-target-behavior": "PolymerElements/iron-scroll-target-behavior#^1.0.6",
+    "app-storage": "PolymerElements/app-storage#^0.9.4"
   },
   "private": true,
   "devDependencies": {

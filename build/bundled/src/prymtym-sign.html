@@ -1,23 +1,46 @@
-<html><head><meta charset="UTF-8"><link rel="import" href="prymtym-app.html"></head><body><dom-module id="prymtym-sign">
+<html><head><meta charset="UTF-8"><link rel="import" href="app-wrapper.html"></head><body><dom-module id="prymtym-sign">
 
   <template>
 
-    <style>:host{display:block;color:black;position:relative;width:100%;margin-top:-64px;z-index:10;background-color:white;}.signinPage{display:flex;align-items:center;justify-content:center;height:100vh;width:100%;//background-color:#BF360C;}.logo{width:200px;}paper-button{bottom:0;position:absolute;margin-bottom:50px;}</style>
-    
-    
-    
+    <style>
+      :host {
+        display: block;
+        color: black;
+        width: 100%;
+
+        background-color: white;
+      }
+      .signinPage {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+        //background-color: #BF360C;
+      }
+
+      .logo {
+        width: 200px;
+      }
+      paper-button {
+        bottom: 0;
+        position: absolute;
+        margin-bottom: 50px;
+      }
+
+    </style>
 
     <div class="signinPage">
-        
+
         <div>
           <div><img class="logo" src="../images/app-icon.svg"></div>
-      
+
           <div><paper-button on-click="_signIn">Sign in with Google</paper-button></div>
         </div>
     </div>
   </template>
 
-  <script>Polymer({is:"prymtym-sign",properties:{visible:{type:Boolean,observer:"_visibleChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.NeonAnimatableBehavior],_visibleChanged:function(i){i&&this.fire("change-section",{title:"Sign-in"})},_signIn:function(){this.fire("firebase-signin")}});</script>
+  <script>Polymer({is:"prymtym-sign",properties:{visible:{type:Boolean,observer:"_visibleChanged"}},created:function(){this.removeAttribute("unresolved")},_visibleChanged:function(e){e&&this.fire("change-section",{title:"Sign-in"})},_signIn:function(){this.fire("firebase-signin")}});</script>
 
 </dom-module>
 </body></html>

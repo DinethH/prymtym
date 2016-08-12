@@ -16,7 +16,76 @@
 
   <template>
 
-    <style>:host{display:block;}.header{background-color:var(--app-accent-color);height:175px;}.header-blocks{display:flex;align-items:flex-end;justify-content:center;height:175px;}.block{flex:1;text-align:center;padding-bottom:20px;color:white;}.block-value, .block-item{text-transform:uppercase;}.block-item{opacity:0.7;font-size:0.9em;}google-chart{height:300px;width:100%;}.progress, .checkins{margin:8px;box-shadow:1px 1px 10px #ccc;}.label{background:#fff;font-size:20px;font-weight:500;padding-left:20px;padding-top:20px;}paper-fab{--paper-fab-background:orange;--paper-fab-keyboard-focus-background	:orange;position:fixed;bottom:0;right:0;margin:16px;}.checkins-wrapper{padding-bottom:20px;}::-webkit-scrollbar{display:none;}</style>
+    <style>
+      :host {
+        display: block;
+      }
+      .header {
+        background-color: var(--app-accent-color);
+        height: 175px;
+      }
+      .header-blocks {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 175px;
+      }
+      .block {
+        flex: 1;
+        text-align: center;
+        padding-bottom: 20px;
+        color: white;
+      }
+      .block-value, .block-item {
+        text-transform: uppercase;
+      }
+      .block-item {
+        opacity: 0.7;
+        font-size: 0.9em;
+      }
+      
+
+
+      /** google chart **/
+      google-chart {
+        height: 300px;
+        width: 100%;
+      }
+      
+      .progress, .checkins {
+        margin: 8px;
+        box-shadow: 1px 1px 10px #ccc;
+      }
+      .label {
+        background: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 20px;
+        padding-top: 20px;
+      } 
+
+      
+      paper-fab {
+        --paper-fab-background: orange;
+        --paper-fab-keyboard-focus-background	: orange;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 16px;
+      } 
+      
+       .checkins-wrapper {
+
+        padding-bottom: 20px;
+  
+      }
+        ::-webkit-scrollbar { 
+        display: none; 
+    }   
+    
+
+           
+    </style>
 
     <div class="header">
       <div class="header-blocks">

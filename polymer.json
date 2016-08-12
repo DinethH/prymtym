@@ -1,14 +1,8 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/prymtym-app.html",
+  "shell": "src/app-wrapper.html",
   "fragments": [
       "src/prymtym-sign.html",
-      "src/prymtym-home.html",
-      "src/prymtym-community.html",
-      "src/prymtym-settings.html",      
-      "src/prymtym-about.html",      
-      "src/prymtym-support.html",
-      "src/prymtym-checkin.html"
-      
+      "src/prymtym-app.html"
     ]
 }
