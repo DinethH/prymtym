@@ -21,52 +21,49 @@
 
 <link rel="import" href="./prymtym-style.html">
 <dom-module id="prymtym-app">
-  <template>
+    <template>
 
-    <style include="prymtym-style"></style>
-    <style>
-      :host {
-         display: block;
-         position: relative;
-         --app-primary-color: #202020;
-         --app-secondary-color: #333;
-         --app-accent-color: #BF360C;
-         --paper-button-ink-color: var(--app-accent-color);
-         --paper-icon-button-ink-color: var(--app-accent-color);
-         --paper-spinner-color: var(--app-accent-color);
-         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-         color: var(--app-primary-color);
-         padding-top: 130px;
-       }
-    </style>
-    <app-route
-        route="{{route}}"
-        pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+        <style include="prymtym-style"></style>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                --app-primary-color: #202020;
+                --app-secondary-color: #333;
+                --app-accent-color: #BF360C;
+                --paper-button-ink-color: var(--app-accent-color);
+                --paper-icon-button-ink-color: var(--app-accent-color);
+                --paper-spinner-color: var(--app-accent-color);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                color: var(--app-primary-color);
+                padding-top: 130px;
+            }
+        </style>
+        <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{subroute}}"></app-route>
+
+        {{pageData.page}}
 
 
-<prymtym-home></prymtym-home>
 
-  </template>
-  <script>
-    Polymer({
-      is: 'prymtym-app',
-      properties: {
-        token: {
-          observer: '_tokenChanged'
-        },
-        route: {
-          observer: '_routeChanged'
-        }
-      },
+    </template>
+    <script>
+        Polymer({
+            is: 'prymtym-app',
+            properties: {
+                token: {
+                    observer: '_tokenChanged'
+                },
+                route: {
+                    observer: '_routeChanged'
+                }
+            },
 
-      created: function() {
-        this.removeAttribute('unresolved');
-      },
-      _routeChanged: function () {
-        console.log(this.route);
-      }
-    });
-  </script>
+            created: function() {
+                this.removeAttribute('unresolved');
+            },
+            _routeChanged: function() {
+                console.log(this.route);
+            }
+        });
+    </script>
 </dom-module>

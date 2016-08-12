@@ -15,6 +15,7 @@
         width: 100vw;
         background: #BF360C;
       }
+
       prymtym-sign[unresolved] {
         display: block;
         height: 100vh;
@@ -38,7 +39,7 @@
       >
     </firebase-auth>
     <section id="pages">
-
+      <prymtym-app id="ptapp"  route="{{route}}"></<prymtym-app>
     </section>
 
   </template>
@@ -63,36 +64,38 @@
         }.bind(this));
       },
       _initializeToken: function () {
-        console.log("Init " + this.token);
+        //console.log("Init " + this.token);
         let page = document.createElement('div');
         // if token is undefined import sign in page
         if (this.token === undefined) {
           this.importHref(this.resolveUrl('prymtym-sign.html'),
             null, null, true);
-            console.log('Sign in page loaded');
+            //console.log('Sign in page loaded');
             page.innerHTML = `<prymtym-sign unresolved id="signinPage"></prymtym-sign>`;
 
             // destroy undefined key
             this.$.tokenDoc.destroy();
         } else {
           // load app
+          this.$.ptapp.setAttribute('unresolved', true);
           this.importHref(this.resolveUrl('prymtym-app.html'),
             null, null, true);
-            console.log('App is loaded');
-            page.innerHTML = `<prymtym-app unresolved route="{{route}}"></prymtym-app>`;
+            //console.log('App is loaded');
+            //page.innerHTML = `<prymtym-app unresolved route="` + this.route + `"></prymtym-app>`;
+
         }
 
         this.$.pages.appendChild(page);
       },
       _tokenChanged: function () {
-        console.log("Subsequent " + this.token);
+        //console.log("Subsequent " + this.token);
       },
       _signIn: function () {
         this.$.auth.signInWithPopup()
           .then(function(response) {
             //console.log(response.credential.accessToken);
             //this.facebookAccessToken = response.credential.accessToken;
-            console.log("Signed in: " + this);
+            //console.log("Signed in: " + this);
 
             // load app
             //this.querySelector('prymtym-sign').style.display = "none";
@@ -100,16 +103,22 @@
               null, null, true);
               console.log('App is loaded');
 
+              //hide sign in page
+              const rNode = this.$.pages.children[1];
+              this.$.pages.removeChild(rNode);
+
+              /*
+
               let page = document.createElement('div');
-              page.innerHTML = `<prymtym-app unresolved route="{{route}}"></prymtym-app>`;
+              page.innerHTML = `<prymtym-app unresolved></prymtym-app>`;
 
               // remove sign in page
-              const rNode = this.$.pages.children[0];
-              this.$.pages.removeChild(rNode);
+
 
 
               this.$.pages.appendChild(page);
-
+              this.querySelector('prymtym-app').setAttribute('route') = this.route;
+              */
 
           }.bind(this))
           .catch(function(error) {
