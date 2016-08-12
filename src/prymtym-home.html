@@ -19,6 +19,13 @@
     <style>
       :host {
         display: block;
+
+
+      }
+      .bottom-container {
+        max-width: 1200px;
+        margin: 0 auto;
+
       }
       .header {
         background-color: var(--app-accent-color);
@@ -43,7 +50,7 @@
         opacity: 0.7;
         font-size: 0.9em;
       }
-      
+
 
 
       /** google chart **/
@@ -51,7 +58,7 @@
         height: 300px;
         width: 100%;
       }
-      
+
       .progress, .checkins {
         margin: 8px;
         box-shadow: 1px 1px 10px #ccc;
@@ -62,9 +69,9 @@
         font-weight: 500;
         padding-left: 20px;
         padding-top: 20px;
-      } 
+      }
 
-      
+
       paper-fab {
         --paper-fab-background: orange;
         --paper-fab-keyboard-focus-background	: orange;
@@ -72,19 +79,19 @@
         bottom: 0;
         right: 0;
         margin: 16px;
-      } 
-      
+      }
+
        .checkins-wrapper {
 
         padding-bottom: 20px;
-  
-      }
-        ::-webkit-scrollbar { 
-        display: none; 
-    }   
-    
 
-           
+      }
+        ::-webkit-scrollbar {
+        display: none;
+    }
+
+
+
     </style>
 
     <div class="header">
@@ -103,16 +110,17 @@
         </div>
       </div>
     </div>
-    
-    
+
+
+  <div class="bottom-container">
     <div class="checkins">
       <h3 class="label">Checkins</h3>
            <div id="scrollable-element" style="overflow: auto; margin-left: 20px; margin-right: 20px;">
             <prymtym-checkins-wrapper id="checkinsWrapper" scroll-target="scrollable-element" class="checkins-wrapper"></prymtym-checkins-wrapper>
           </div>
     </div>
-    
-  
+
+
 
     <div class="progress">
       <h3 class="label">Hourly Averages</h3>
@@ -126,9 +134,10 @@
 
 
     <a name="checkin" href="/checkin">
-    <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>   
+    <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>
     </a>
 
+  </div>
   </template>
 
   <script>
@@ -164,16 +173,16 @@
       },
 
       behaviors: [
-        Polymer.IronResizableBehavior, 
-        Polymer.NeonAnimatableBehavior, 
+        Polymer.IronResizableBehavior,
+        Polymer.NeonAnimatableBehavior,
 
-      ],  
+      ],
       listeners: {
         'iron-resize': '_onIronResize'
       },
       _onIronResize: function () {
         this.$.chartAvg.drawChart();
-      },      
+      },
       _visibleChanged: function(visible) {
         if (visible) {
           this.fire('change-section', { title: 'Home' });
@@ -182,10 +191,10 @@
       dataChanged: function (newData, oldData) {
         //console.log(this.data);
       },
-    
-        
+
+
         checkin: function () {
-  
+
         }
     });
   </script>
