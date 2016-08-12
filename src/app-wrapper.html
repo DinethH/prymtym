@@ -49,11 +49,19 @@
       properties: {
         token: {
           observer: '_tokenChanged'
+        },
+        route: {
+          notify: true
         }
       },
       listeners: {
-        'change-section': '_onChangeSection',
+
         'firebase-signin': '_signIn'
+      },
+      attached: function () {
+        if (!this.route.path) {
+          this.set('route.path', '/home');
+        }
       },
       created: function () {
         this.removeAttribute('unresolved');

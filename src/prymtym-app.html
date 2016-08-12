@@ -36,14 +36,136 @@
                 --paper-spinner-color: var(--app-accent-color);
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                 color: var(--app-primary-color);
-                padding-top: 130px;
+                //padding-top: 130px;
             }
         </style>
         <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{subroute}}"></app-route>
 
-        {{pageData.page}}
+        <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
+        <app-indexeddb-mirror
+                session="[[user.uid]]"
+                key="prymtym-signed-in"
+                data="{{signedInObject}}"
+                persisted-data="{{signedInObjectPersist}}"
+                >
+            </app-indexeddb-mirror>
+
+           <firebase-query
+               app-name="prymtym"
+               path="/users/[[user.uid]]"
+               data="{{userStatus}}">
+           </firebase-query>
+
+           <firebase-document
+             id="initializeUser"
+             app-name="prymtym"
+
+             >
+           </firebase-document>
+           <app-header role="navigation" id="header" effects="waterfall" condenses fixed>
+             <app-toolbar>
+               <div class="left-bar-item">
+                 <paper-icon-button
+                     class="menu-btn"
+                     icon="menu"
+                     on-click="_toggleDrawer"
+                     >
+
+                 </paper-icon-button>
+
+                 <a class="back-btn" href="/home" tabindex="-1">
+                   <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
+                 </a>
+               </div>
+             </app-toolbar>
 
 
+
+             <!-- Lazy-create the tabs for larger screen sizes. -->
+             <div id="tabContainer" primary$="[[!smallScreen]]" hidden$="[[smallScreen]]">
+               <div class="tabs-wrapper">
+                 <template is="dom-if" if="[[!smallScreen]]">
+                    <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
+                         <a name="home" href="/home">
+                           <paper-ripple></paper-ripple>
+                         Home</a>
+                         <a name="community" href="/community">
+                           <paper-ripple></paper-ripple>
+                         Community</a>
+                         <a name="about" href="/about">
+                           <paper-ripple></paper-ripple>
+                         About</a>
+                         <a name="support" href="/support">
+                           <paper-ripple></paper-ripple>
+                         Support</a>
+                         <a name="settings" href="/settings">
+                           <paper-ripple></paper-ripple>
+                         Settings</a>
+                    </tabs>
+
+
+
+                 </template>
+               </div>
+             </div>
+           </app-header>
+
+           <!-- Lazy-create the drawer for small screen sizes. -->
+           <template is="dom-if" if="[[smallScreen]]">
+             <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
+             <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
+               <div class="header">
+                 <div class="header-inner">
+                   <div class="profile-pic">
+                     <img src="{{user.photoURL}}" >
+                   </div>
+                   <div class="username">
+                     {{user.displayName}}
+                   </div>
+                 </div>
+               </div>
+               <iron-selector role="navigation" class="drawer-list" selected="[[page]]" attr-for-selected="name">
+                 <a name="home" href="/home">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:whatshot"></iron-icon>Home</a>
+
+                 <a name="community" href="/community">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Community</a>
+
+                 <hr  noshade="noshade">
+
+                 <a name="settings" href="/settings">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:settings"></iron-icon>Settings</a>
+                 <a name="about" href="/about">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:info"></iron-icon>About</a>
+                 <a name="support" href="/support">
+                   <paper-ripple></paper-ripple>
+                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Support</a>
+
+                   <a on-tap="logOut" href="#">
+                   <iron-icon class="menu-icon" icon="icons:help"></iron-icon>Logout</a>
+               </iron-selector>
+             </app-drawer>
+           </template>
+
+
+
+
+           <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+
+
+               <!-- home view -->
+               <prymtym-home id="home" name="home"></prymtym-home>
+               <prymtym-community id="community" name="community"></prymtym-community>
+               <prymtym-settings id="settings" name="settings"></prymtym-settings>
+               <prymtym-about id="about" name="about"></prymtym-about>
+               <prymtym-support id="support" name="support"></prymtym-support>
+               <prymtym-checkin id="checkin" name="checkin" user="{{user}}"></prymtym-checkin>
+
+             </neon-animated-pages>
 
     </template>
     <script>
@@ -54,16 +176,46 @@
                     observer: '_tokenChanged'
                 },
                 route: {
-                    observer: '_routeChanged'
+                    observer: '_routeChanged',
+                    notify: true
+                },
+                page: {
+                  type: String,
+                  value: 'home',
+                  reflectToAttribute: true,
+                  notify: true
                 }
+            },
+
+            listeners: {
+              'change-section': '_onChangeSection'
             },
 
             created: function() {
                 this.removeAttribute('unresolved');
             },
             _routeChanged: function() {
-                console.log(this.route);
-            }
+              if (this.route.path.split('/')[1]) {
+                this.page = this.route.path.split('/')[1];
+              } else {
+                this.page = 'home';
+              }
+              Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+              this.drawerOpened = false;
+
+            },
+            _toggleDrawer: function() {
+              this.drawerOpened = !this.drawerOpened;
+            },
+            _onChangeSection: function(event) {
+              //this.page = "community";
+               var detail = event.detail;
+               // Announce the page's title
+               if (detail.title) {
+                 document.title = detail.title + ' - PrymTym';
+
+               }
+             }
         });
     </script>
 </dom-module>
