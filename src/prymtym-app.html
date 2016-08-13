@@ -18,6 +18,7 @@
 <link rel="import" href="prymtym-community.html" async>
 <link rel="import" href="prymtym-settings.html" async>
 <link rel="import" href="prymtym-support.html" async>
+<link rel="import" href="user-account.html" async>
 
 <link rel="import" href="./prymtym-style.html">
 <dom-module id="prymtym-app">
@@ -94,11 +95,9 @@
                           <a name="community" href="/community">
                             <paper-ripple></paper-ripple>
                           Prym Map</a>
-                    
 
-                          <span class="profile-pic-desktop">
-                            <img src="{{user.photoURL}}" >
-                          </span>
+                          <!-- TODO: Put it inside a custom element -->
+                          <user-account user="[[user]]"></user-account>
 
 
                     </iron-selector>

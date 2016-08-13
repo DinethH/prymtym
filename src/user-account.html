@@ -1,0 +1,107 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="user-account">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+      }
+      .user-account-popup {
+        display: none;
+        position: absolute;
+        //background: white;
+        width: 350px;
+
+
+      }
+      .profile-pic-desktop {
+        margin-left: 10px;
+      }
+      .profile-pic-desktop img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+      }
+
+      .header {
+        background: #ccc;
+        display: block;
+        height: 10px;
+        width: 100%;
+      }
+      .arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        display: block;
+        border-bottom: 5px solid #ccc;
+        margin-left: 325px;
+      }
+      .popup-body {
+        background: white;
+        display: flex;
+        box-shadow: 0px 2px 2px #666;
+        padding: 10px;
+      }
+      .account-info {
+        display: block;
+        justify-content: center;
+        width: 100%;
+        padding-top: 10px;
+
+        height: 100%;
+      }
+      .user-name {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .controls {
+        display: flex;
+        font-weight: normal;;
+        font-size: 16px;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+    </style>
+
+    <span class="profile-pic-desktop" id="uaDesktop" on-tap="_showUserAccountPopup">
+      <img src="{{user.photoURL}}" >
+      <div id="uaPopup" class="user-account-popup">
+        <span class="arrow-up"></span>
+        <span class="header"></span>
+        <div class="popup-body">
+          <img style="width: 100px; height: 100px;" src="{{user.photoURL}}" >
+          <span class="account-info">
+            <div class="user-name">{{user.displayName}}</div>
+            <div class="controls">
+              <paper-button>Account</paper-button>
+              <paper-button>Sign Out</paper-button>
+            </div>
+        </span>
+        </div>
+
+      </div>
+    </span>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'user-account',
+
+      _showUserAccountPopup: function () {
+        var rightBound = this.getBoundingClientRect().right;
+        var topBount = this.getBoundingClientRect().top
+        this.$.uaPopup.style.display = 'block';
+        this.$.uaPopup.style.right = `calc(100vw - ${rightBound}px)`;
+        this.$.uaPopup.style.top = topBount;
+        console.log(this.$.uaPopup.style.right);
+      }
+    });
+  </script>
+</dom-module>
