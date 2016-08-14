@@ -15,29 +15,35 @@
       }
       .circle-current {
         width: 18px;
-        height: 18px;       
+        height: 18px;
+        border-color: #FFAB40;
+      }
+      .circle-passed {
+        border-color: #FF5252;
+        background-color: #FF5252;
       }
       .circle-wrapper {
         height: 24px;
         width: 30px;
         display: flex;
         align-items: center;
-        justify-content: center;       
+        justify-content: center;
       }
       .hour {
         padding-top: 8px;
-        font-size: 12px;        
+        font-size: 12px;
       }
       .hour-current {
-        font-weight: bold;        
+        font-weight: bold;
       }
       .checked {
-        background: #ccc;
+        background: #00C853;
+        border-color: #00C853;
       }
 
     </style>
     <div class="circle-wrapper">
-      <div class$="{{setCurrent(current, checked)}}"></div>
+      <div class$="{{setCurrent(current, checked, passed)}}"></div>
     </div>
     <div class$="{{setHour(current)}}">
       {{hour}}
@@ -58,12 +64,18 @@
         checked: {
           type: Boolean,
           value: false
+        },
+        passed: {
+          type: Boolean,
+          value: false
         }
       },
-      setCurrent: function (current, checked) {
+      setCurrent: function (current, checked, passed) {
+        console.log(this.hour);
         var classes = 'circle';
         if(current) classes += ' circle-current';
         if(checked) classes += ' checked';
+        if(passed) classes += ' circle-passed';
         return classes;
       },
       setHour: function (current) {
