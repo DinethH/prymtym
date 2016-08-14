@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","274f96f841d2e47d2ba5fc7028f14272"],["/src/app-wrapper.html","898f598d74fea92594861d3f42a6caef"],["/src/prymtym-app.html","af0fbfc9aee4048663228853e495f1f4"],["/src/prymtym-sign.html","1b4b9508165c04b4fa178277da0c5b39"]];
+var PrecacheConfig = [["/index.html","274f96f841d2e47d2ba5fc7028f14272"],["/src/app-wrapper.html","898f598d74fea92594861d3f42a6caef"],["/src/prymtym-app.html","7941d6d686eb13adea59e22d3e641c4e"],["/src/prymtym-sign.html","1b4b9508165c04b4fa178277da0c5b39"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 

@@ -18,6 +18,7 @@
 <link rel="import" href="prymtym-community.html" async="">
 <link rel="import" href="prymtym-settings.html" async="">
 <link rel="import" href="prymtym-support.html" async="">
+<link rel="import" href="user-account.html" async="">
 
 <link rel="import" href="./prymtym-style.html">
 </head><body><dom-module id="prymtym-app">
@@ -42,6 +43,7 @@
         <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{subroute}}"></app-route>
 
         <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
+        <iron-media-query query="orientation: landscape" query-matches="{{landscape}}"></iron-media-query>
         <app-indexeddb-mirror session="[[user.uid]]" key="prymtym-signed-in" data="{{signedInObject}}" persisted-data="{{signedInObjectPersist}}">
             </app-indexeddb-mirror>
 
@@ -63,33 +65,27 @@
                </div>
              </app-toolbar>
 
-
-
              
              <div id="tabContainer" primary$="[[!smallScreen]]" hidden$="[[smallScreen]]">
                <div class="tabs-wrapper">
                  <template is="dom-if" if="[[!smallScreen]]">
+                   <menu class="desktop-menu">
                     <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
-                         <a name="home" href="/home">
-                           <paper-ripple></paper-ripple>
-                         Home</a>
-                         <a name="community" href="/community">
-                           <paper-ripple></paper-ripple>
-                         Community</a>
-                         <a name="about" href="/about">
-                           <paper-ripple></paper-ripple>
-                         About</a>
-                         <a name="support" href="/support">
-                           <paper-ripple></paper-ripple>
-                         Support</a>
-                         <a name="settings" href="/settings">
-                           <paper-ripple></paper-ripple>
-                         Settings</a>
-                    
+
+                          <a name="home" href="/home">
+                            <paper-ripple></paper-ripple>
+                          Home</a>
+                          <a name="community" href="/community">
+                            <paper-ripple></paper-ripple>
+                          Prym Map</a>
+
+                          
+                          <user-account user="[[user]]"></user-account>
 
 
-
-                 </iron-selector></template>
+                    </iron-selector>
+                  </menu>
+                 </template>
                </div>
              </div>
            </app-header>
@@ -97,7 +93,7 @@
            
            <template is="dom-if" if="[[smallScreen]]">
              
-             <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
+             <app-drawer class$="{{getDrawerClasses(landscape)}}" opened="{{drawerOpened}}" swipe-open="" tabindex="0">
                <div class="header">
                  <div class="header-inner">
                    <div class="profile-pic">
@@ -116,7 +112,7 @@
 
                  <a name="community" href="/community">
                    <paper-ripple></paper-ripple>
-                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>'Round the World</a>
+                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Prym Map</a>
 
                  <hr noshade="noshade">
 
@@ -130,23 +126,15 @@
              </app-drawer>
            </template>
 
-
-
-
            <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-
-
-               
                <prymtym-home id="home" name="home"></prymtym-home>
                <prymtym-community id="community" name="community"></prymtym-community>
                <prymtym-settings id="settings" name="settings"></prymtym-settings>
                <prymtym-about id="about" name="about"></prymtym-about>
                <prymtym-support id="support" name="support"></prymtym-support>
                <prymtym-checkin id="checkin" name="checkin" user="{{user}}"></prymtym-checkin>
-
              </neon-animated-pages>
-
     </template>
-    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0},user:{type:Object,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")}});</script>
+    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0},user:{type:Object,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")},getDrawerClasses:function(e){var t="";return t=e?"app-drawer-tablet":"app-drawer-phone"}});</script>
 </dom-module>
 </body></html>

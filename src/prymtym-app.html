@@ -43,6 +43,7 @@
         <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{subroute}}"></app-route>
 
         <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
+        <iron-media-query query="orientation: landscape" query-matches="{{landscape}}"></iron-media-query>
         <app-indexeddb-mirror
                 session="[[user.uid]]"
                 key="prymtym-signed-in"
@@ -60,7 +61,6 @@
            <firebase-document
              id="initializeUser"
              app-name="prymtym"
-
              >
            </firebase-document>
            <app-header role="navigation" id="header" effects="waterfall" condenses fixed>
@@ -79,8 +79,6 @@
                  </a>
                </div>
              </app-toolbar>
-
-
 
              <!-- Lazy-create the tabs for larger screen sizes. -->
              <div id="tabContainer" primary$="[[!smallScreen]]" hidden$="[[smallScreen]]">
@@ -102,8 +100,6 @@
 
                     </iron-selector>
                   </menu>
-
-
                  </template>
                </div>
              </div>
@@ -112,7 +108,7 @@
            <!-- Lazy-create the drawer for small screen sizes. -->
            <template is="dom-if" if="[[smallScreen]]">
              <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
-             <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
+             <app-drawer class$="{{getDrawerClasses(landscape)}}" opened="{{drawerOpened}}" swipe-open tabindex="0">
                <div class="header">
                  <div class="header-inner">
                    <div class="profile-pic">
@@ -145,22 +141,14 @@
              </app-drawer>
            </template>
 
-
-
-
            <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-
-
-               <!-- home view -->
                <prymtym-home id="home" name="home"></prymtym-home>
                <prymtym-community id="community" name="community"></prymtym-community>
                <prymtym-settings id="settings" name="settings"></prymtym-settings>
                <prymtym-about id="about" name="about"></prymtym-about>
                <prymtym-support id="support" name="support"></prymtym-support>
                <prymtym-checkin id="checkin" name="checkin" user="{{user}}"></prymtym-checkin>
-
              </neon-animated-pages>
-
     </template>
     <script>
         Polymer({
@@ -200,7 +188,6 @@
               }
               Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
               this.drawerOpened = false;
-
             },
             _toggleDrawer: function() {
               this.drawerOpened = !this.drawerOpened;
@@ -211,8 +198,16 @@
                // Announce the page's title
                if (detail.title) {
                  document.title = detail.title + ' - PrymTym';
-
                }
+             },
+             getDrawerClasses: function (lanscape) {
+               var classes = '';
+               if (lanscape) {
+                 classes = 'app-drawer-tablet';
+               } else {
+                 classes = 'app-drawer-phone';
+               }
+               return classes;
              }
         });
     </script>

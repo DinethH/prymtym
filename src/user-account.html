@@ -93,12 +93,15 @@
   <script>
     Polymer({
       is: 'user-account',
+      properties: {
+        user: Object
+      },
 
       _showUserAccountPopup: function () {
         var rightBound = this.getBoundingClientRect().right;
         var topBount = this.getBoundingClientRect().top
         this.$.uaPopup.style.display = 'block';
-        this.$.uaPopup.style.right = `calc(100vw - ${rightBound}px)`;
+        this.$.uaPopup.style.right = 'calc(100vw - ' + rightBound+ 'px)';
         this.$.uaPopup.style.top = topBount;
         console.log(this.$.uaPopup.style.right);
       }

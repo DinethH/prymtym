@@ -979,6 +979,13 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
     <style>
       :host {
         display: block;
+
+
+      }
+      .bottom-container {
+        max-width: 1200px;
+        margin: 0 auto;
+
       }
       .header {
         background-color: var(--app-accent-color);
@@ -1003,7 +1010,7 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
         opacity: 0.7;
         font-size: 0.9em;
       }
-      
+
 
 
       /** google chart **/
@@ -1011,7 +1018,7 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
         height: 300px;
         width: 100%;
       }
-      
+
       .progress, .checkins {
         margin: 8px;
         box-shadow: 1px 1px 10px #ccc;
@@ -1022,9 +1029,9 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
         font-weight: 500;
         padding-left: 20px;
         padding-top: 20px;
-      } 
+      }
 
-      
+
       paper-fab {
         --paper-fab-background: orange;
         --paper-fab-keyboard-focus-background	: orange;
@@ -1032,19 +1039,19 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
         bottom: 0;
         right: 0;
         margin: 16px;
-      } 
-      
+      }
+
        .checkins-wrapper {
 
         padding-bottom: 20px;
-  
-      }
-        ::-webkit-scrollbar { 
-        display: none; 
-    }   
-    
 
-           
+      }
+        ::-webkit-scrollbar {
+        display: none;
+    }
+
+
+
     </style>
 
     <div class="header">
@@ -1063,16 +1070,17 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
         </div>
       </div>
     </div>
-    
-    
+
+
+  <div class="bottom-container">
     <div class="checkins">
       <h3 class="label">Checkins</h3>
            <div id="scrollable-element" style="overflow: auto; margin-left: 20px; margin-right: 20px">
             <prymtym-checkins-wrapper id="checkinsWrapper" scroll-target="scrollable-element" class="checkins-wrapper"></prymtym-checkins-wrapper>
           </div>
     </div>
-    
-  
+
+
 
     <div class="progress">
       <h3 class="label">Hourly Averages</h3>
@@ -1082,14 +1090,16 @@ ES:"España",ET:X,FI:"Suomi",FJ:"फिजी",FK:ga,FM:x,FO:"Føroyar",FR:"Fran
 
 
     <a name="checkin" href="/checkin">
-    <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>   
+    <paper-fab id="checkinFab" on-click="checkin" icon="icons:add"></paper-fab>
     </a>
 
+  </div>
   </template>
 
   <script>Polymer({is:"prymtym-home",properties:{page:{type:String,notify:!0},visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.IronResizableBehavior,Polymer.NeonAnimatableBehavior],listeners:{"iron-resize":"_onIronResize"},_onIronResize:function(){this.$.chartAvg.drawChart()},_visibleChanged:function(e){e&&this.fire("change-section",{title:"Home"})},dataChanged:function(e,n){},checkin:function(){}});</script>
 
-</dom-module><dom-module id="prymtym-about" assetpath="/">
+</dom-module>
+<dom-module id="prymtym-about" assetpath="/">
 
   <template>
 
@@ -1425,7 +1435,98 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
 
   <script>Polymer({is:"prymtym-support",properties:{visible:{type:Boolean,observer:"_visibleChanged"},data:{type:Number,observer:"dataChanged"},animationConfig:{value:function(){return{entry:{name:"fade-in-animation",node:this},exit:{name:"fade-out-animation",node:this}}}}},behaviors:[Polymer.NeonAnimatableBehavior],_visibleChanged:function(e){e&&this.fire("change-section",{title:"Support"})},dataChanged:function(e,i){}});</script>
 
-</dom-module><dom-module id="prymtym-style" assetpath="/">
+</dom-module><dom-module id="user-account" assetpath="/">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+      }
+      .user-account-popup {
+        display: none;
+        position: absolute;
+        //background: white;
+        width: 350px;
+
+
+      }
+      .profile-pic-desktop {
+        margin-left: 10px;
+      }
+      .profile-pic-desktop img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+      }
+
+      .header {
+        background: #ccc;
+        display: block;
+        height: 10px;
+        width: 100%;
+      }
+      .arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        display: block;
+        border-bottom: 5px solid #ccc;
+        margin-left: 325px;
+      }
+      .popup-body {
+        background: white;
+        display: flex;
+        box-shadow: 0px 2px 2px #666;
+        padding: 10px;
+      }
+      .account-info {
+        display: block;
+        justify-content: center;
+        width: 100%;
+        padding-top: 10px;
+
+        height: 100%;
+      }
+      .user-name {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .controls {
+        display: flex;
+        font-weight: normal;;
+        font-size: 16px;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+    </style>
+
+    <span class="profile-pic-desktop" id="uaDesktop" on-tap="_showUserAccountPopup">
+      <img src="{{user.photoURL}}">
+      <div id="uaPopup" class="user-account-popup">
+        <span class="arrow-up"></span>
+        <span class="header"></span>
+        <div class="popup-body">
+          <img style="width: 100px; height: 100px" src="{{user.photoURL}}">
+          <span class="account-info">
+            <div class="user-name">{{user.displayName}}</div>
+            <div class="controls">
+              <paper-button>Account</paper-button>
+              <paper-button>Sign Out</paper-button>
+            </div>
+        </span>
+        </div>
+
+      </div>
+    </span>
+
+  </template>
+  <script>Polymer({is:"user-account",properties:{user:Object},_showUserAccountPopup:function(){var t=this.getBoundingClientRect().right,o=this.getBoundingClientRect().top;this.$.uaPopup.style.display="block",this.$.uaPopup.style.right="calc(100vw - "+t+"px)",this.$.uaPopup.style.top=o,console.log(this.$.uaPopup.style.right)}});</script>
+</dom-module>
+<dom-module id="prymtym-style" assetpath="/">
   <template>
     <style>
 
@@ -1434,9 +1535,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
             z-index: 1;
             background-color: var(--app-accent-color);
           }
-          app-header, app-toolbar {
-            height: 56px !important;
-          }
+
           paper-icon-buttion {
             color: #ffffff;
           }
@@ -1473,13 +1572,21 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
             border: 1px solid #ececec;
           }
           app-drawer {
-            --app-drawer-width: calc(100vw - 56px);
             z-index: 3;
           }
+          .app-drawer-phone {
+            --app-drawer-width: calc(100vw - 56px);
+          }
+          .app-drawer-tablet {
+            --app-drawer-width: 300px;
+          }
           neon-animated-pages {
-            max-width: 1200px;
+            //max-width: 1200px;
             margin: 0 auto;
             height: calc(100vh - 56px);
+          }
+          app-header, app-toolbar {
+            height: 64px;
           }
           /* small screen */
           @media (max-width: 767px) {
@@ -1491,6 +1598,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
             }
             :host([page=detail]) .menu-btn {
               display: none;
+            }
+            app-header, app-toolbar {
+              height: 56px;
             }
           }
          .menu-icon {
@@ -1518,6 +1628,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
             margin-top: 8px;
             color: #fff;
           }
+          .tabs {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            //margin-right: 24px;
+            margin-top: -14px;
+          }
           .tabs a {
             position: relative;
             color: white;
@@ -1526,12 +1644,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
 
           }
           .tabs {
+            height: 64px;
           }
+
           .tabs-wrapper {
             text-align: right;
-            width: 1200px;
+            max-width: 1200px;
             margin: 0 auto;
-                padding: 24px;
+
           }
           #tabContainer {
             left: 0;
@@ -1540,18 +1660,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
             margin-bottom: 20px;
             position: fixed;
             top: 0;
-            height: 56px;
+            height: 64px;
           }
           .tabs a.iron-selected {
             /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,bc2c00+100 */
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bf360c+0,bf360c+44,a00a00+100 */
-    background: #bf360c; /* Old browsers */
-    background: -moz-linear-gradient(top,  #bf360c 0%, #bf360c 44%, #a00a00 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #bf360c 0%,#bf360c 44%,#a00a00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf360c', endColorstr='#a00a00',GradientType=0 ); /* IE6-9 */
-    font-weight: bold;
+  font-weight: bold;
           }
+
+
 
     </style>
 
@@ -1580,6 +1697,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
         <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{subroute}}"></app-route>
 
         <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
+        <iron-media-query query="orientation: landscape" query-matches="{{landscape}}"></iron-media-query>
         <app-indexeddb-mirror session="[[user.uid]]" key="prymtym-signed-in" data="{{signedInObject}}" persisted-data="{{signedInObjectPersist}}">
             </app-indexeddb-mirror>
 
@@ -1601,33 +1719,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
                </div>
              </app-toolbar>
 
-
-
              
              <div id="tabContainer" primary$="[[!smallScreen]]" hidden$="[[smallScreen]]">
                <div class="tabs-wrapper">
                  <template is="dom-if" if="[[!smallScreen]]">
+                   <menu class="desktop-menu">
                     <iron-selector role="navigation" class="tabs" selected="[[page]]" attr-for-selected="name">
-                         <a name="home" href="/home">
-                           <paper-ripple></paper-ripple>
-                         Home</a>
-                         <a name="community" href="/community">
-                           <paper-ripple></paper-ripple>
-                         Community</a>
-                         <a name="about" href="/about">
-                           <paper-ripple></paper-ripple>
-                         About</a>
-                         <a name="support" href="/support">
-                           <paper-ripple></paper-ripple>
-                         Support</a>
-                         <a name="settings" href="/settings">
-                           <paper-ripple></paper-ripple>
-                         Settings</a>
-                    
+
+                          <a name="home" href="/home">
+                            <paper-ripple></paper-ripple>
+                          Home</a>
+                          <a name="community" href="/community">
+                            <paper-ripple></paper-ripple>
+                          Prym Map</a>
+
+                          
+                          <user-account user="[[user]]"></user-account>
 
 
-
-                 </iron-selector></template>
+                    </iron-selector>
+                  </menu>
+                 </template>
                </div>
              </div>
            </app-header>
@@ -1635,7 +1747,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
            
            <template is="dom-if" if="[[smallScreen]]">
              
-             <app-drawer opened="{{drawerOpened}}" swipe-open="" tabindex="0">
+             <app-drawer class$="{{getDrawerClasses(landscape)}}" opened="{{drawerOpened}}" swipe-open="" tabindex="0">
                <div class="header">
                  <div class="header-inner">
                    <div class="profile-pic">
@@ -1654,7 +1766,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
 
                  <a name="community" href="/community">
                    <paper-ripple></paper-ripple>
-                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>'Round the World</a>
+                   <iron-icon class="menu-icon" icon="icons:people"></iron-icon>Prym Map</a>
 
                  <hr noshade="noshade">
 
@@ -1668,23 +1780,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00366eab', e
              </app-drawer>
            </template>
 
-
-
-
            <neon-animated-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-
-
-               
                <prymtym-home id="home" name="home"></prymtym-home>
                <prymtym-community id="community" name="community"></prymtym-community>
                <prymtym-settings id="settings" name="settings"></prymtym-settings>
                <prymtym-about id="about" name="about"></prymtym-about>
                <prymtym-support id="support" name="support"></prymtym-support>
                <prymtym-checkin id="checkin" name="checkin" user="{{user}}"></prymtym-checkin>
-
              </neon-animated-pages>
-
     </template>
-    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0},user:{type:Object,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")}});</script>
+    <script>Polymer({is:"prymtym-app",properties:{token:{observer:"_tokenChanged"},route:{observer:"_routeChanged",notify:!0},page:{type:String,value:"home",reflectToAttribute:!0,notify:!0},user:{type:Object,notify:!0}},listeners:{"change-section":"_onChangeSection"},created:function(){this.removeAttribute("unresolved")},_routeChanged:function(){this.route.path.split("/")[1]?this.page=this.route.path.split("/")[1]:this.page="home",Polymer.AppLayout.scroll({top:0,behavior:"silent"}),this.drawerOpened=!1},_toggleDrawer:function(){this.drawerOpened=!this.drawerOpened},_onChangeSection:function(e){var t=e.detail;t.title&&(document.title=t.title+" - PrymTym")},getDrawerClasses:function(e){var t="";return t=e?"app-drawer-tablet":"app-drawer-phone"}});</script>
 </dom-module>
 </body></html>
